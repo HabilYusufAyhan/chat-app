@@ -1,0 +1,13 @@
+<% locals.validation_error.forEach(element => { %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> <%- element.msg %></strong>
+</div>
+<% }) %> <% locals.login_error.forEach(error => { %>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <strong> <%- error %></strong>
+</div>
+<% }) %> <% locals.success_message.forEach(element => { %>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong> <%- element.msg %></strong>
+</div>
+<% }) %>

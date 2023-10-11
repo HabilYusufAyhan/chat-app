@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+    <div class="login-page">
+      <% if (locals.validation_error != undefined || locals.success_message !=
+      undefined || locals.login_error != undefined) { %> <%-
+      include('./partials/_mesaj') %> <% } %>
+
+      <div class="form">
+        <form action="/login" method="post" class="login-form">
+          <input
+            name="email"
+            value="<%= typeof email != 'undefined' ? email : ''%>"
+            type="email"
+            placeholder="Email"
+          />
+          <input name="sifre" type="password" placeholder="Password" />
+          <button type="submit">login</button>
+          <p class="message">
+            Not registered? <a href="/signup">Create an account</a>
+          </p>
+          <p class="message">
+            <a href="/forgetpassword">I forgot my password</a>
+          </p>
+        </form>
+      </div>
+    </div>
+    <script>
+      $(".message a").click(function () {
+        $("form").animate({ height: "toggle", opacity: "toggle" }, "slow");
+      });
+    </script>
+  </body>
+</html>

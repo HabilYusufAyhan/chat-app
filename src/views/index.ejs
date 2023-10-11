@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rehber APP</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <nav>
+      <img src="/assets/logo.png" alt="logo" class="logo" />
+      <ul class="menu-ul">
+        <button class="menu personadd"><a href="#">New Person</a></button>
+        <button class="menu"><a href="/logout">Log Out</a></button>
+      </ul>
+    </nav>
+
+    <table class="members">
+      <tr class="table-titles">
+        <th class="titles1">Person</th>
+        <th>Contact</th>
+        <th>Degree</th>
+        <th>Operations</th>
+      </tr>
+      <% for( let index = 0; index < guide.length; index++ ) { %>
+      <tr>
+        <td><%- guide[index].person %></td>
+        <td><%- guide[index].contact %></td>
+        <td><%- guide[index].degree %></td>
+        <td>
+          <a href="/edit?id=<%- guide[index]._id %>">
+            <i class="fa-solid fa-pen-to-square"></i
+          ></a>
+          <a href="/delete?id=<%- guide[index]._id %>"
+            ><i class="fa-solid fa-trash"></i
+          ></a>
+        </td>
+      </tr>
+      <% } %>
+    </table>
+    <section class="newPerson closing">
+      <form class="personAdd" action="/" method="post">
+        <div class="cross-div">
+          <i class="fa-solid fa-x" style="color: red"></i>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-6 mb-3 mb-sm-0">
+            <input
+              type="text"
+              value="<%= typeof person != 'undefined' ? person : ''%>"
+              name="person"
+              class="input"
+              id=""
+              placeholder="Person Name and Surname"
+            />
+          </div>
+          <div class="col-sm-6">
+            <input
+              type="number"
+              value="<%= typeof contact != 'undefined' ? contact : ''%>"
+              name="contact"
+              class="input"
+              id=""
+              placeholder="Contact"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            value="<%= typeof degree !== 'undefined' ? degree : '' %>"
+            name="degree"
+            class="input"
+            id=""
+            placeholder="Degree"
+          />
+        </div>
+
+        <button type="submit" class="submitbutton">Add New Person</button>
+      </form>
+    </section>
+    <div class="page">
+      <i class="fa-solid fa-chevron-left buttons"></i>
+      <p class="sayac">1</p>
+      <i class="fa-solid fa-chevron-right buttons"></i>
+    </div>
+  </body>
+  <script src="/js/index.js"></script>
+</html>

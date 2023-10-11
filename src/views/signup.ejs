@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/login.css" />
+  </head>
+  <body>
+    <div class="login-page">
+      <% if (locals.validation_error != undefined) { %> <%-
+      include('./partials/_mesaj') %> <% } %>
+      <div class="form">
+        <form action="/signup" method="post" class="login-form">
+          <input
+            value="<%= typeof companyName != 'undefined' ? companyName : ''%>"
+            name="companyName"
+            type="text"
+            placeholder="Company Name"
+          />
+          <input
+            value="<%= typeof email != 'undefined' ? email : ''%>"
+            name="email"
+            type="email"
+            placeholder="Email"
+          />
+          <input name="sifre" type="password" placeholder="Password" />
+          <button type="submit">Sign Up</button>
+          <p class="message">
+            Do you already have an account?
+            <a href="/login">Log in</a>
+          </p>
+        </form>
+      </div>
+    </div>
+    <script>
+      $(".message a").click(function () {
+        $("form").animate({ height: "toggle", opacity: "toggle" }, "slow");
+      });
+    </script>
+  </body>
+</html>

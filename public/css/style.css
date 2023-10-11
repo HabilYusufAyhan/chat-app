@@ -1,0 +1,192 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox için */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+/*#19baff*/
+body {
+  background: url(/assets/bg.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+.logo {
+  width: 50px;
+  margin-left: 40px;
+  margin-top: 20px;
+}
+.menu-ul {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  justify-content: space-around;
+}
+.menu {
+  font-size: 18px;
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+nav {
+  position: fixed;
+  display: flex;
+  text-decoration: none;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+  color: white;
+  transition: 0.2s;
+}
+a:hover {
+  color: rgb(0, 161, 0);
+}
+i {
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+i {
+  color: rgb(130, 0, 0);
+}
+i:hover {
+  color: red;
+}
+i:first-child {
+  color: rgb(159, 159, 0);
+}
+i:first-child:hover {
+  color: yellow;
+}
+.members {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.titles1 {
+  text-align: left;
+  width: 400px;
+}
+th {
+  width: 200px;
+
+  color: #19baff;
+  height: 80px;
+  font-size: 18px;
+}
+td {
+  text-align: center;
+  color: white;
+}
+td:first-child {
+  text-align: left;
+}
+tr {
+  height: 40px;
+}
+.page {
+  position: absolute;
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+}
+.buttons {
+  font-size: 50px;
+  color: white;
+}
+.buttons:first-child {
+  color: white;
+}
+.sayac {
+  font-size: 40px;
+  color: white;
+}
+.input {
+  width: 200px;
+}
+.newPerson {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  display: none;
+}
+.newPerson2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.personAdd {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  padding: 25px;
+  border-radius: 10px;
+}
+.fa-x {
+  text-align: right;
+  font-size: 25px;
+  color: red;
+  margin-bottom: 10px;
+}
+.cross-div {
+  width: 100%;
+  text-align: right;
+}
+.input {
+  font-size: 15px;
+  border: none;
+  outline: none;
+  border: 2px solid rgb(72, 72, 72);
+  border-radius: 10px;
+  margin: 5px;
+  padding: 5px;
+}
+.submitbutton {
+  background-color: green;
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+}
