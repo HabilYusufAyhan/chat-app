@@ -3,19 +3,8 @@ const authController = require("../controllers/auth_controller");
 const validatorMiddleware = require("../middlewares/validation_middleware");
 const authMiddleware = require("../middlewares/auth_middleware");
 const guideController = require("../controllers/guide_controller");
-router.post("/", authMiddleware.oturumAcilmis, guideController.addnewPerson);
+router.post("/", authMiddleware.oturumAcilmis);
 router.get("/", authMiddleware.oturumAcilmis, guideController.openpersonpage);
-router.get(
-  "/delete",
-  authMiddleware.oturumAcilmis,
-  guideController.deletePerson
-);
-router.get("/edit", authMiddleware.oturumAcilmis, guideController.editPerson);
-router.post(
-  "/edit",
-  authMiddleware.oturumAcilmis,
-  guideController.posteditPerson
-);
 
 router.get(
   "/login",
@@ -56,5 +45,7 @@ router.post(
 
 router.get("/verify", authController.verifyMail);
 router.get("/logout", authMiddleware.oturumAcilmis, authController.logout);
+
+router.get("/profile", authController.getprofile);
 
 module.exports = router;

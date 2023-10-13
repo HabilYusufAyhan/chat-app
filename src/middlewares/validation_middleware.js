@@ -4,7 +4,18 @@ const validateNewUser = () => {
   return [
     body("email").trim().isEmail().withMessage("Geçerli bir mail giriniz"),
 
-    body("companyName").trim(),
+    body("ad")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("isim en az 2 karakter olmalı")
+      .isLength({ max: 25 })
+      .withMessage("isim en fazla 25 karakter olmalı"),
+    body("soyad")
+      .trim()
+      .isLength({ min: 2 })
+      .withMessage("soyisim en az 2 karakter olmalı")
+      .isLength({ max: 25 })
+      .withMessage("soyisim en fazla 25 karakter olmalı"),
 
     body("sifre")
       .trim()

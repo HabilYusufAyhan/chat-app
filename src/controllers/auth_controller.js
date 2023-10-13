@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const User = require("../model/user_model");
-const guide = require("../model/guide_model");
+
 const passport = require("passport");
 require("../config/passport_local")(passport);
 const bcrypt = require("bcrypt");
@@ -39,10 +39,11 @@ const register = async (req, res, next) => {
   const hatalar = validationResult(req);
   // console.log(hatalarDizisi);
   if (!hatalar.isEmpty()) {
+    console.log(hatalar.array());
     req.flash("validation_error", hatalar.array());
     req.flash("email", req.body.email);
-    req.flash("companyName", req.body.companyName);
-
+    req.flash("ad", req.body.ad);
+    req.flash("soyad", req.body.soyad);
     req.flash("sifre", req.body.sifre);
 
     //console.log(req.session);
@@ -54,7 +55,8 @@ const register = async (req, res, next) => {
       if (_user && _user.emailAktif == true) {
         req.flash("validation_error", [{ msg: "Bu mail kullanımda" }]);
         req.flash("email", req.body.email);
-        req.flash("companyName", req.body.companyName);
+        req.flash("ad", req.body.ad);
+        req.flash("soyad", req.body.soyad);
         req.flash("sifre", req.body.sifre);
 
         res.redirect("/signup");
@@ -64,7 +66,8 @@ const register = async (req, res, next) => {
         }
         const newUser = new User({
           email: req.body.email,
-          companyName: req.body.companyName,
+          ad: req.body.ad,
+          soyad: req.body.soyad,
           sifre: await bcrypt.hash(req.body.sifre, 10),
         });
         await newUser.save();
@@ -343,6 +346,10 @@ const yeniSifreFormuGoster = async (req, res, next) => {
   }
 };
 
+const getprofile = async (req, res, next) => {
+  res.render("profile.ejs");
+};
+
 module.exports = {
   loginFormunuGoster,
   registerFormunuGoster,
@@ -354,4 +361,5 @@ module.exports = {
   verifyMail,
   yeniSifreFormuGoster,
   yeniSifreyiKaydet,
+  getprofile,
 };

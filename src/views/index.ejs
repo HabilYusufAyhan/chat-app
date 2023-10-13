@@ -27,10 +27,26 @@
               alt="Profile img"
             />
             <span class="settings-tray--right">
-              <i class="material-icons">cached</i>
               <i class="material-icons">message</i>
-              <i class="material-icons">menu</i>
+              <i id="menu" class="material-icons">menu</i>
             </span>
+          </div>
+          <div class="drawer">
+            <a href="/profile">
+              <ul class="drawerlist">
+                Profile
+              </ul></a
+            >
+            <a href="/settings">
+              <ul class="drawerlist">
+                Settings
+              </ul></a
+            >
+            <a href="/logout">
+              <ul style="color: red" class="drawerlist">
+                Log Out
+              </ul>
+            </a>
           </div>
           <div class="search-box">
             <div class="input-wrapper">
@@ -132,7 +148,6 @@
                 </p>
               </div>
               <span class="settings-tray--right">
-                <i class="material-icons">cached</i>
                 <i class="material-icons">message</i>
                 <i class="material-icons">menu</i>
               </span>
@@ -179,7 +194,6 @@
                 <div class="chat-box-tray">
                   <i class="material-icons">sentiment_very_satisfied</i>
                   <input type="text" placeholder="Type your message here..." />
-                  <i class="material-icons">mic</i>
                   <i class="material-icons">send</i>
                 </div>
               </div>
@@ -190,10 +204,10 @@
     </div>
     <!-- partial -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="./script.js"></script>
+    <script src="/js/index.js"></script>
     <script>
       $(".friend-drawer--onhover").on("click", function () {
-        $(".chat-bubble").hide("slow").show("slow");
+        $(".chat-bubble").hide("fast").show("fast");
       });
     </script>
   </body>

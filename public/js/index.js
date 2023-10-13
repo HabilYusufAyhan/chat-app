@@ -1,21 +1,16 @@
-// .querySelectorAll() ile seçilen öğeler bir NodeList döndürür, bu yüzden forEach() ile döngüye almanız gerekecek.
+const menu = document.querySelector("#menu");
+const drawer = document.querySelector(".drawer");
 
-const newPersonButtons = document.querySelectorAll(".personadd");
-const persons = document.querySelectorAll(".closing");
-const closePersonButtons = document.querySelectorAll(".fa-x");
+let sayac = 0;
 
-// NodeList üzerinde forEach() kullanarak her "personadd" düğmesine tıklanma olayını ekleyin.
-newPersonButtons.forEach((button, index) => {
-  button.addEventListener("click", () => {
-    // Tıklanan düğmenin karşılık gelen "newPerson" öğesini gösterin.
-    persons[index].style.display = "flex";
-  });
-});
-
-// NodeList üzerinde forEach() kullanarak her "fa-x" düğmesine tıklanma olayını ekleyin.
-closePersonButtons.forEach((button, index) => {
-  button.addEventListener("click", () => {
-    // Tıklanan düğmenin karşılık gelen "newPerson" öğesini gizleyin.
-    persons[index].style.display = "none";
-  });
-});
+menu.onclick = () => {
+  if (sayac == 0) {
+    drawer.style.opacity = 1;
+    drawer.style.zIndex = 1;
+    sayac++;
+  } else {
+    drawer.style.opacity = 0;
+    drawer.style.zIndex = 0;
+    sayac--;
+  }
+};

@@ -10,7 +10,12 @@ const UserSchema = new Schema(
       unique: true,
       lowercase: true,
     },
-    companyName: {
+    ad: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    soyad: {
       type: String,
       required: true,
       trim: true,

@@ -60,11 +60,20 @@ ul {
 }
 a {
   text-decoration: none;
-  color: white;
+  color: black;
+  transition: 0.2s;
+}
+.drawer {
+  background-color: white;
+  position: absolute;
+  right: 0;
+  padding: 15px;
+  opacity: 0;
+  z-index: -1;
   transition: 0.2s;
 }
 a:hover {
-  color: rgb(0, 161, 0);
+  text-decoration: none;
 }
 i {
   margin-left: 10px;
@@ -216,6 +225,10 @@ body {
   padding: 10px 15px;
   border-radius: 7px;
 }
+.friend-drawer {
+  display: flex;
+  justify-content: space-evenly;
+}
 .no-gutters {
   display: flex;
   align-items: flex-end;
@@ -311,7 +324,7 @@ hr {
   margin: 10px 30px;
   border-radius: 9px;
   position: relative;
-  animation: fadeIn 1s ease-in;
+  animation: fadeIn 0.2s ease-in;
 }
 .chat-bubble:after {
   content: "";

@@ -13,10 +13,16 @@
       <div class="form">
         <form action="/signup" method="post" class="login-form">
           <input
-            value="<%= typeof companyName != 'undefined' ? companyName : ''%>"
-            name="companyName"
+            value="<%= typeof ad != 'undefined' ? ad : ''%>"
+            name="ad"
             type="text"
-            placeholder="Company Name"
+            placeholder="Name"
+          />
+          <input
+            value="<%= typeof soyad != 'undefined' ? soyad : ''%>"
+            name="soyad"
+            type="text"
+            placeholder="Surname"
           />
           <input
             value="<%= typeof email != 'undefined' ? email : ''%>"
