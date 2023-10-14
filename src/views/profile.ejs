@@ -4,12 +4,65 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css"
+    />
+    <link rel="stylesheet" href="/css/profile.css" />
   </head>
   <body>
-    <div class="profile_page">
-      <div class="avatar">
-        <input type="file" />
-      </div>
+    <div class="avatar-input">
+      <form action="/profile" method="post">
+        <img src="<%- avatar %>" id="profile-image" />
+        <input name="avatar" type="file" id="file-input" />
+        <input type="hidden" name="links" id="links" />
+        <input value="<%- ad %>" name="ad" type="text" />
+        <input value="<%- soyad %>" name="soyad" type="text" />
+
+        <button id="crop-button" type="submit">Profil Güncelle</button>
+      </form>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script>
+      let cropper;
+      // HTML elementlerini alın
+      const imageElement = document.getElementById("profile-image");
+      const fileInput = document.getElementById("file-input");
+      const cropButton = document.getElementById("crop-button");
+      const cropperOptions = {
+        aspectRatio: 1, // Kırpma oranını istediğiniz şekilde ayarlayın
+        viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
+      };
+
+      // Kullanıcı yeni bir dosya seçtiğinde kırpma işlemine başla
+      fileInput.addEventListener("change", function () {
+        const selectedFile = fileInput.files[0];
+        if (selectedFile) {
+          const objectURL = URL.createObjectURL(selectedFile);
+          imageElement.src = objectURL;
+
+          // Kırpma işlemini başlat
+          cropper = new Cropper(imageElement, cropperOptions);
+          console.log(cropper.getCropBoxData());
+          // Kırpma işlemini tamamla ve sonuçları al
+        }
+      });
+
+      // Kırpma butonuna tıklanınca
+      cropButton.onclick = function () {
+        const croppedCanvas = cropper.getCroppedCanvas();
+        if (croppedCanvas) {
+          const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
+          console.log(croppedImageDataURL);
+          const links = document.querySelector("#links");
+          console.log(links);
+          links.value = croppedImageDataURL;
+          console.log(links.value);
+          // Kırpılmış resmi kullanmak için burada yapmanız gereken işlemleri gerçekleştirin
+        }
+      };
+      // Kırpma işlemini tamamladığınızda Cropper nesnesini yok edin
+    </script>
   </body>
 </html>

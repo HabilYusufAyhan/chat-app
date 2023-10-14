@@ -17,7 +17,7 @@ const path = require("path");
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", path.resolve(__dirname, "./src/views"));
-
+app.use("/uploads", express.static(path.join(__dirname, "/src/uploads")));
 //db baglantısı
 require("./src/config/database");
 const MongoDBStore = require("connect-mongodb-session")(session);

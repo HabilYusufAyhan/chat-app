@@ -24,6 +24,12 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    avatar: {
+      required: true,
+      type: String,
+      trim: true,
+      default: "/assets/indir.png",
+    },
     sifre: {
       type: String,
       required: true,

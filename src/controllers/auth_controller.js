@@ -347,7 +347,28 @@ const yeniSifreFormuGoster = async (req, res, next) => {
 };
 
 const getprofile = async (req, res, next) => {
-  res.render("profile.ejs");
+  res.render("profile.ejs", req.user);
+};
+const postprofile = async (req, res, next) => {
+  const link = req.body.links;
+  console.log(req.body);
+  console.log("linkler bunlar:", link);
+  const guncelBilgiler = {
+    ad: req.body.ad,
+    soyad: req.body.soyad,
+    avatar: link,
+  };
+
+  try {
+    const sonuc = await User.findByIdAndUpdate(req.user.id, guncelBilgiler);
+
+    if (sonuc) {
+      console.log("update tamamlandı");
+      res.redirect("/profile");
+    }
+  } catch (hata) {
+    console.log(hata);
+  }
 };
 
 module.exports = {
@@ -362,4 +383,5 @@ module.exports = {
   yeniSifreFormuGoster,
   yeniSifreyiKaydet,
   getprofile,
+  postprofile,
 };

@@ -1,3 +1,4 @@
+const multerConfig = require("../config/multer_config");
 const router = require("express").Router();
 const authController = require("../controllers/auth_controller");
 const validatorMiddleware = require("../middlewares/validation_middleware");
@@ -46,6 +47,12 @@ router.post(
 router.get("/verify", authController.verifyMail);
 router.get("/logout", authMiddleware.oturumAcilmis, authController.logout);
 
-router.get("/profile", authController.getprofile);
+router.get("/profile", authMiddleware.oturumAcilmis, authController.getprofile);
+router.post(
+  "/profile",
+  authMiddleware.oturumAcilmis, // Önce oturum kontrolü yapılır
+  // Daha sonra dosya yüklemesi yapılır
+  authController.postprofile
+);
 
 module.exports = router;
