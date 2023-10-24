@@ -25,7 +25,7 @@ const login = (req, res, next) => {
          res.redirect('/login'); 
      } else {
         passport.authenticate('local', {
-            successRedirect: '/yonetim',
+            successRedirect: '/chat',
             failureRedirect: '/login',
             failureFlash: true
         })(req, res, next);
@@ -372,7 +372,10 @@ const yeniSifreFormuGoster = async (req, res, next) => {
                 res.redirect('forget-password');
     }
 }
-
+const openprofilepage = function (req,res,next) {
+   
+    res.render('profil', { user:req.user,title:'Profile' });
+}
 module.exports = {
     loginFormunuGoster,
     registerFormunuGoster,
@@ -383,5 +386,6 @@ module.exports = {
     logout,
     verifyMail,
     yeniSifreFormuGoster,
-    yeniSifreyiKaydet
+    yeniSifreyiKaydet,
+    openprofilepage
 }

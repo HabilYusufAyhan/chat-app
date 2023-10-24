@@ -14,7 +14,7 @@ router.get('/forget-password',authMiddleware.oturumAcilmamis, authController.for
 router.post('/forget-password', authMiddleware.oturumAcilmamis, validatorMiddleware.validateEmail(), authController.forgetPassword);
 
 router.get('/verify', authController.verifyMail);
-
+router.get('/profile', authMiddleware.oturumAcilmis , authController.openprofilepage)
 
 router.get('/reset-password/:id/:token', authController.yeniSifreFormuGoster);
 router.get('/reset-password', authController.yeniSifreFormuGoster);

@@ -36,7 +36,27 @@ const UserSchema = new Schema({
         type: String,
         required: true,
         trim: true,
-    }
+    },
+    banner: {
+        type:String,
+        default:'defaultbanner.jpg'
+    },
+    userabout:{
+        type:String,
+        default:'Merhaba Ben Yeni Bir Kullanıcıyım'
+    },
+    instagram:{
+        type:String,
+        default:null
+    },
+    twitter:{
+        type:String,
+        default:null
+    },
+    linkedin:{
+        type:String,
+        default:null
+    },
 }, { collection: 'kullanicilar', timestamps: true });
 
 const User = mongoose.model('User', UserSchema);

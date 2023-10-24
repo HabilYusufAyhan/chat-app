@@ -56,7 +56,12 @@ module.exports = function (passport) {
                 soyad:user.soyad,
                 sifre:user.sifre,
                 olusturulmaTarihi: user.createdAt,
-                avatar:user.avatar
+                avatar:user.avatar,
+                banner:user.banner,
+                userabout:user.userabout,
+                instagram:user.instagram,
+                twitter:user.twitter,
+                linkedin:user.linkedin
           }
           done(err, yeniUser);
         });

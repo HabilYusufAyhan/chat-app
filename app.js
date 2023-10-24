@@ -55,7 +55,7 @@ app.use((req, res, next) => {
     res.locals.soyad = req.flash('soyad');
     res.locals.sifre = req.flash('sifre');
     res.locals.resifre = req.flash('resifre');
-
+    
     res.locals.login_error = req.flash('error');
     
    
@@ -68,7 +68,7 @@ app.use(passport.session());
 
 //routerlar include edilir
 const authRouter = require('./src/routers/auth_router');
-const yonetimRouter = require('./src/routers/yonetim_router');
+
 
 
 //formdan gelen değerlerin okunabilmesi için
@@ -88,7 +88,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', authRouter);
-app.use('/yonetim', yonetimRouter);
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Server ${process.env.PORT} portundan ayaklandı`);
