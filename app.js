@@ -11,9 +11,9 @@ const passport = require('passport');
 
 //template engine ayarları
 const ejs = require('ejs');
-const expressLayouts = require('express-ejs-layouts');
+
 const path = require('path');
-app.use(expressLayouts);
+
 app.use(express.static('public'));
 app.use("/uploads", express.static(path.join(__dirname,'/src/uploads')));
 app.set('view engine', 'ejs');
@@ -72,8 +72,9 @@ const authRouter = require('./src/routers/auth_router');
 
 
 //formdan gelen değerlerin okunabilmesi için
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
+app.use(express.json({ limit: '10mb' })); // JSON veri limiti ayarı
 
 
 let sayac = 0;
