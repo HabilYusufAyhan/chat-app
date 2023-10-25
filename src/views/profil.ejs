@@ -80,25 +80,25 @@
                       <a href="<%- user.instagram %>" class="btn btn-just-icon btn-link btn-dribbble">
                         <i class="fa fa-instagram"></i>
                       </a>
-                      <% } else { %>
+                      <% } %>
                         <a style="display: none;" class="iconbutton">İnstagram Hesabı Ekle</a>
-                        <% } %>
 
-                          <% if (user.twitter !=null) { %>
-                            <a href="<%- user.twitter %>" class="btn btn-just-icon btn-link btn-twitter">
-                              <i class="fa fa-twitter"></i>
-                            </a>
-                            <% } else { %>
-                              <a style="display: none;" class="iconbutton">Twitter Hesabı Ekle</a>
+
+                        <% if (user.twitter !=null) { %>
+                          <a href="<%- user.twitter %>" class="btn btn-just-icon btn-link btn-twitter">
+                            <i class="fa fa-twitter"></i>
+                          </a>
+                          <% }%>
+                            <a style="display: none;" class="iconbutton1">Twitter Hesabı Ekle</a>
+
+
+                            <% if (user.linkedin !=null) { %>
+                              <a href="<%- user.linkedin %>" class="btn btn-just-icon btn-link btn-pinterest">
+                                <i class="fa fa-linkedin"></i>
+                              </a>
                               <% } %>
+                                <a style="display: none;" class="iconbutton2">Linkedin Hesabı Ekle</a>
 
-                                <% if (user.linkedin !=null) { %>
-                                  <a href="<%- user.linkedin %>" class="btn btn-just-icon btn-link btn-pinterest">
-                                    <i class="fa fa-linkedin"></i>
-                                  </a>
-                                  <% } else { %>
-                                    <a style="display: none;" class="iconbutton">Linkedin Hesabı Ekle</a>
-                                    <% } %>
                   </div>
                 </div>
               </div>
@@ -197,31 +197,36 @@
     const ad = document.querySelector('.ad');
     const soyad = document.querySelector('.soyad');
     const paragrafad = document.querySelector('.paragrafad')
-    const iconbutton = document.querySelectorAll('.iconbutton')
+    const iconbutton = document.querySelector('.iconbutton')
+    const iconbutton1 = document.querySelector('.iconbutton1')
+    const iconbutton2 = document.querySelector('.iconbutton2')
     duzenle.onclick = function () {
       ad.style.display = 'flex'
       soyad.style.display = 'flex'
       paragrafad.style.display = 'none'
       cropButton.style.display = 'block'
       cropButton.style.position = 'absolute'
-      iconbutton[0].style.display = 'inline-block'
-      iconbutton[1].style.display = 'inline-block'
-      iconbutton[2].style.display = 'inline-block'
+      iconbutton.style.display = 'inline-block'
+      iconbutton1.style.display = 'inline-block'
+      iconbutton2.style.display = 'inline-block'
       fileInput.style.display = 'inline-block'
       avatarInput.style.display = 'inline-block'
     }
 
-    iconbutton[0].onclick = function () {
+    iconbutton.onclick = function () {
+      console.log('instagrama tıkladı');
       const socialinput = document.querySelector('.instagraminput')
       socialinput.style.display = 'flex'
     }
 
-    iconbutton[1].onclick = function () {
+    iconbutton1.onclick = function () {
+      console.log('instagrama tıkladı 1');
       const socialinput = document.querySelector('.twitterinput')
       socialinput.style.display = 'flex'
     }
 
-    iconbutton[2].onclick = function () {
+    iconbutton2.onclick = function () {
+      console.log('instagrama tıkladı 2');
       const socialinput = document.querySelector('.linkedininput')
       socialinput.style.display = 'flex'
     }

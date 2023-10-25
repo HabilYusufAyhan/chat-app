@@ -422,10 +422,13 @@ const postprofilepage = async function (req, res, next) {
             });
             guncelBilgiler.avatar = req.user.email + 'avatar.jpg'
         } if (req.body.instagram) {
+            console.log('instagrama girdi');
             guncelBilgiler.instagram = req.body.instagram
         } if (req.body.twitter) {
+            console.log('twittera girdi');
             guncelBilgiler.twitter = req.body.twitter
         } if (req.body.linkedin) {
+            console.log('linkedine girdi');
             guncelBilgiler.linkedin = req.body.linkedin
         }
 
