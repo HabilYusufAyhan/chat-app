@@ -1,6 +1,6 @@
 <head>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
-  <link rel="stylesheet" href="/css/profile.css" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
   <link rel="stylesheet"
     href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -11,13 +11,19 @@
   <link rel="stylesgeet"
     href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+  <link rel="stylesheet" href="/css/profile.css" />
 </head>
 <style>
-  .page-header::before {
+  .page-header::after {
     background: url("/uploads/avatars/<%- user.banner %>");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
+    z-index: 1;
+  }
+
+  .page-header {
+    z-index: 2;
   }
 </style>
 
@@ -52,6 +58,7 @@
 
     <div class="page-header header-filter" data-parallax="true"
       style="background-image: url('/uploads/avatars/<%- user.banner %>')"></div>
+    <img class="onizleme" style="position: absolute;" src="" alt="">
     <div class="main main-raised">
       <div style="    padding-bottom: 10px;" class="profile-content">
         <div class="container">
@@ -72,36 +79,48 @@
                       type="text" />
                     <input style="display: none;    max-width: 250px;" class="soyad" value="<%- user.soyad %>"
                       name="soyad" type="text" />
-                    <p class="paragrafad"><%- user.ad + ' ' + user.soyad %></p>
+                    <p style="font-size: 20px;" class="paragrafad"><%- user.ad + ' ' + user.soyad %></p>
                   </h3>
 
-                  <div class="socialmediaicon">
+                  <div style="    display: flex;
+                  flex-direction: row;
+                  flex-wrap: nowrap;
+                  align-items: center;
+                  justify-content: center;" class="socialmediaicon">
                     <% if (user.instagram !=null) { %>
-                      <a href="<%- user.instagram %>" class="btn btn-just-icon btn-link btn-dribbble">
+                      <a href="<%- user.instagram %>" class="invisibles btn btn-just-icon btn-link btn-dribbble">
                         <i class="fa fa-instagram"></i>
                       </a>
                       <% } %>
-                        <a style="display: none;" class="iconbutton">İnstagram Hesabı Ekle</a>
+                        <a style="display: none !important; " class="iconbutton hovericons">İnstagram Hesabı Ekle</a>
 
 
                         <% if (user.twitter !=null) { %>
-                          <a href="<%- user.twitter %>" class="btn btn-just-icon btn-link btn-twitter">
+                          <a href="<%- user.twitter %>" class="invisible1 btn btn-just-icon btn-link btn-twitter">
                             <i class="fa fa-twitter"></i>
                           </a>
                           <% }%>
-                            <a style="display: none;" class="iconbutton1">Twitter Hesabı Ekle</a>
+                            <a style="display: none !important; " class="iconbutton1 hovericons">Twitter Hesabı Ekle</a>
 
 
                             <% if (user.linkedin !=null) { %>
-                              <a href="<%- user.linkedin %>" class="btn btn-just-icon btn-link btn-pinterest">
+                              <a href="<%- user.linkedin %>"
+                                class="invisible2 btn btn-just-icon btn-link btn-pinterest">
                                 <i class="fa fa-linkedin"></i>
                               </a>
                               <% } %>
-                                <a style="display: none;" class="iconbutton2">Linkedin Hesabı Ekle</a>
+                                <a style="display: none !important;" class="iconbutton2 hovericons">Linkedin Hesabı
+                                  Ekle</a>
 
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="designbuttons">
+              <a style="display: none;
+            z-index: 2;" id="crop-button">Onayla</a>
+
+              <button class="savebutton" style="   display: none;  z-index: 2; " type="submit">Kaydet</button>
             </div>
           </div>
           <div class="description text-center">
@@ -123,8 +142,7 @@
           <% } %>
       </div>
     </div>
-    <button style="display: none;top: 0;
-    z-index: 2;" type="submit" id="crop-button">Onayla</button>
+
   </form>
 
   <script src="/js/profile.js"></script>
@@ -138,10 +156,13 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
   <script>
+    const pageheader = document.querySelector('.page-header')
     const cropButton = document.querySelector('#crop-button')
     let cropper;
     const fileInput = document.querySelector("#links2");
     const avatarInput = document.querySelector('#links')
+    const imgavatar = document.querySelector('img-raised');
+    const savebutton = document.querySelector('.savebutton')
     const cropperOptions = {
       aspectRatio: 1920 / 1080, // Kırpma oranını istediğiniz şekilde ayarlayın
       viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
@@ -152,7 +173,9 @@
     };
     const imageElement = document.querySelector(".bannerimg");
     fileInput.addEventListener("change", function () {
+      cropButton.style.display = 'block'
       // ...
+      savebutton.style.display = 'none'
       const selectedFile = fileInput.files[0];
       const objectURL = URL.createObjectURL(selectedFile);
       imageElement.src = objectURL;
@@ -161,6 +184,7 @@
 
       // Kırpma işlemini tamamla ve sonuçları al
       cropButton.onclick = function () {
+        savebutton.style.display = 'inline-block'
         const croppedCanvas = cropper.getCroppedCanvas();
         if (croppedCanvas) {
           const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
@@ -168,11 +192,17 @@
           // Kırpılmış resmi img etiketinin src'sine yaz
           const inputs = document.querySelector("#links22");
           inputs.value = croppedImageDataURL;
+          console.log('çalıştı');
+
+          pageheader.style.backgroundImage = `url(${croppedImageDataURL})`
+          cropper.destroy();
         }
       };
     });
 
     avatarInput.addEventListener("change", function () {
+      savebutton.style.display = 'none'
+      cropButton.style.display = 'block'
       const selectedFile = avatarInput.files[0];
       const objectURL = URL.createObjectURL(selectedFile);
       imageElement.src = objectURL;
@@ -181,13 +211,19 @@
 
       // Kırpma işlemini tamamla ve sonuçları al
       cropButton.onclick = function () {
+
+        savebutton.style.display = 'inline-block'
         const croppedCanvas = cropper.getCroppedCanvas();
+        cropper.destroy();
         if (croppedCanvas) {
           const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
 
           // Kırpılmış resmi img etiketinin src'sine yaz
           const inputs = document.querySelector("#links1");
           inputs.value = croppedImageDataURL;
+          console.log(croppedImageDataURL);
+          imgavatar.src = croppedImageDataURL
+
         }
       };
     })
@@ -200,17 +236,26 @@
     const iconbutton = document.querySelector('.iconbutton')
     const iconbutton1 = document.querySelector('.iconbutton1')
     const iconbutton2 = document.querySelector('.iconbutton2')
+
+    const invisible = document.querySelector('.invisibles');
+    const invisible1 = document.querySelector('.invisible1');
+    const invisible2 = document.querySelector('.invisible2');
     duzenle.onclick = function () {
       ad.style.display = 'flex'
       soyad.style.display = 'flex'
       paragrafad.style.display = 'none'
-      cropButton.style.display = 'block'
-      cropButton.style.position = 'absolute'
+
+
       iconbutton.style.display = 'inline-block'
       iconbutton1.style.display = 'inline-block'
       iconbutton2.style.display = 'inline-block'
       fileInput.style.display = 'inline-block'
       avatarInput.style.display = 'inline-block'
+      savebutton.style.display = 'inline-block'
+      invisible.style.display = 'none';
+      invisible1.style.display = 'none'
+      invisible2.style.display = 'none'
+
     }
 
     iconbutton.onclick = function () {
