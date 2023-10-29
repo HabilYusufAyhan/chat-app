@@ -375,6 +375,7 @@ const yeniSifreFormuGoster = async (req, res, next) => {
 const openprofilepage = async function (req, res, next) {
     if (!req.query.id) {
         res.redirect('/profile?id=' + req.user.id)
+
     }
 
     let usesr = await User.findOne({ _id: req.query.id })
@@ -382,8 +383,24 @@ const openprofilepage = async function (req, res, next) {
     res.render('profil', { req: req, user: usesr, title: 'Profile' });
 }
 const postprofilepage = async function (req, res, next) {
+    if (req.body.ad.length < 2 || req.body.ad.length > 30) {
+        console.log('lengthe takıldı');
+        req.flash('validation_error', [{ msg: "Ad en az 2 harften oluşmalı" }]);
 
-    if (req.user.id != req.query.id) {
+        req.body.ad = req.user.ad
+    }
+    else if (req.body.soyad.length < 2 || req.body.soyad.length > 30) {
+        req.flash('validation_error', [{ msg: "Soyad en az 2 harften oluşmalı" }]);
+
+        req.body.soyad = req.user.soyad
+
+
+    }
+
+
+
+
+    else if (req.user.id != req.query.id) {
         res.redirect('/profile')
     }
     const fs = require('fs');

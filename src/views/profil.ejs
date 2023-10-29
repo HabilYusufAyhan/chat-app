@@ -29,278 +29,351 @@
     z-index: 2;
   }
 </style>
+<% if (validation_error !=undefined || success_message !=undefined || locals.login_error !=undefined) { %>
+  <%- include('./partials/_mesaj') %>
+    <% } %>
 
-<body class="profile-page">
+      <body class="profile-page">
 
-  <form style="background: url('/uploads/avatars/<%- user.banner %>');    background-repeat: no-repeat;
+        <form style="background: url('/uploads/avatars/<%- user.banner %>');    background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;" class="forms" action="/profile" method="post">
-    <div style="display: none;" class="instagraminput socialinput">
-      <div class="positiondiv">
-        <label class="instagramlabel">Link:</label>
-        <input name="instagram" type="text">
-        <button type="submit">Ekle</button>
-      </div>
-    </div>
-    <div style="display: none;" class="twitterinput socialinput">
-      <div class="positiondiv">
-        <label class="instagramlabel">Link:</label>
-        <input name="twitter" type="text">
-        <button type="submit">Ekle</button>
-      </div>
-    </div>
-    <div style="display: none;" class="linkedininput socialinput">
-      <div class="positiondiv">
-        <label class="instagramlabel">Link:</label>
-        <input name="linkedin" type="text">
-        <button type="submit">Ekle</button>
-      </div>
-    </div>
+          <div style="display: none;" class="instagraminput socialinput">
+            <div class="positiondiv">
+              <div class="positionlinks">
+                <label class="instagramlabel">Link:</label>
+                <input value="<%- user.instagram %>" class="instagramvalue" type="text">
+              </div>
 
-    <input style="display: none;" id="links2" type="file" />
-    <input type="hidden" name="links2" id="links22" />
+              <input class="instagramdata" name="instagram" type="hidden">
+              <div class="socialb">
+                <a class="instagramclick socialbutton" href="#">Ekle</a>
+                <a class="instagramcancel socialbutton2" href="#">İptal</a>
+              </div>
+            </div>
+          </div>
+          <div style="display: none;" class="twitterinput socialinput">
+            <div class="positiondiv">
+              <div class="positionlinks"> <label class="instagramlabel">Link:</label>
+                <input value="<%- user.twitter %>" class="twittervalue" type="text">
+              </div>
+              <input class="twitterdata" name="twitter" type="hidden">
+              <div class="socialb">
+                <a class="twitterclick socialbutton" href="#">Ekle</a>
+                <a class="twittercancel socialbutton2" href="#">İptal</a>
+              </div>
+
+            </div>
+          </div>
+          <div style="display: none;" class="linkedininput socialinput">
+            <div class="positiondiv">
+              <div class="positionlinks">
+                <label class="instagramlabel">Link:</label>
+                <input value="<%- user.linkedin %>" class="linkedinvalue" type="text">
+              </div>
+
+              <input class="linkedindata" name="linkedin" type="hidden">
+              <div class="socialb">
+                <a class="linkedinclick socialbutton" href="#">Ekle</a>
+                <a class="linkedincancel socialbutton2" href="#">İptal</a>
+              </div>
+
+            </div>
+          </div>
+
+          <input style="display: none;" id="links2" type="file" />
+          <input type="hidden" name="links2" id="links22" />
 
 
-    <div class="page-header header-filter" data-parallax="true"></div>
-    <img class="onizleme" style="position: absolute;" src="" alt="">
-    <div class="main main-raised">
-      <div style="    padding-bottom: 10px;" class="profile-content">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 ml-auto mr-auto">
-              <div class="profile">
-                <img class="bannerimg" style="display: none" src="" alt="" />
-                <div class="avatar">
-                  <input style="display: none;" id="links" type="file" />
-                  <input type="hidden" name="links1" id="links1" />
-                  <img src="/uploads/avatars/<%- user.avatar %>" alt="Circle Image"
-                    class="profileimgs img-raised rounded-circle img-fluid" />
-                </div>
+          <div class="page-header header-filter" data-parallax="true"></div>
+          <img class="onizleme" style="position: absolute;" src="" alt="">
+          <div class="main main-raised">
+            <div style="    padding-bottom: 10px;" class="profile-content">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-6 ml-auto mr-auto">
+                    <div class="profile">
+                      <img class="bannerimg" style="display: none" src="" alt="" />
+                      <div class="avatar">
+                        <input style="display: none;" id="links" type="file" />
+                        <input type="hidden" name="links1" id="links1" />
+                        <img src="/uploads/avatars/<%- user.avatar %>" alt="Circle Image"
+                          class="profileimgs img-raised rounded-circle img-fluid" />
+                      </div>
 
-                <div class="name">
-                  <h3 class="title">
-                    <input style="display: none;    max-width: 250px;" class="ad" value="<%- user.ad %>" name="ad"
-                      type="text" />
-                    <input style="display: none;    max-width: 250px;" class="soyad" value="<%- user.soyad %>"
-                      name="soyad" type="text" />
-                    <p style="font-size: 20px;" class="paragrafad"><%- user.ad + ' ' + user.soyad %></p>
-                  </h3>
-                  <div class="description text-center">
-                    <input placeholder="Hakkında" class="aboutinput" style="display: none;" name="userabout" type="text"
-                      value="<%- user.userabout %>">
-                    <p class="aboutme">
-                      <%- user.userabout %>
-                    </p>
-                  </div>
-                  <div style="    display: flex;
+                      <div class="name">
+                        <h3 class="title">
+                          <input style="display: none;    max-width: 250px;" class="ad inputdesign"
+                            value="<%- user.ad %>" name="ad" type="text" minlength="2" maxlength="30" />
+                          <input style="display: none;    max-width: 250px;" class="soyad inputdesign"
+                            value="<%- user.soyad %>" name="soyad" type="text" minlength="2" maxlength="30" />
+                          <p style="font-size: 20px;" class="paragrafad"><%- user.ad + ' ' + user.soyad %></p>
+                        </h3>
+                        <div class="description text-center">
+                          <input placeholder="Hakkında" class="aboutinput inputdesign" style="display: none;"
+                            name="userabout" type="text" value="<%- user.userabout %>">
+                          <p class="aboutme">
+                            <%- user.userabout %>
+                          </p>
+                        </div>
+                        <div style="    display: flex;
                   flex-direction: row;
                   flex-wrap: nowrap;
                   align-items: center;
                   justify-content: center;" class="socialmediaicon">
-                    <% if (user.instagram !=null) { %>
-                      <a href="<%- user.instagram %>" class="invisibles btn btn-just-icon btn-link btn-dribbble">
-                        <i class="fa fa-instagram"></i>
-                      </a>
-                      <% } %>
-                        <a style="display: none !important; " class="iconbutton hovericons"> <i
-                            class="fa fa-instagram buttonicons"></i> Ekle</a>
+                          <% if (user.instagram !=null) { %>
+                            <a target="_blank" href="<%- user.instagram %>"
+                              class="invisibles btn btn-just-icon btn-link btn-dribbble">
+                              <i class="fa fa-instagram"></i>
+                            </a>
+                            <% } %>
+                              <a style="display: none !important; " class="iconbutton hovericons"> <i
+                                  class="fa fa-instagram buttonicons"></i> Ekle</a>
 
 
-                        <% if (user.twitter !=null) { %>
+                              <% if (user.twitter !=null) { %>
 
-                          <a href="<%- user.twitter %>" class="invisible1 btn btn-just-icon btn-link btn-twitter">
-                            <i class="fa fa-twitter"></i>
-                          </a>
-                          <% }%>
-                            <a style="display: none !important; " class="iconbutton1 hovericons"> <i
-                                class="fa fa-twitter buttonicons"></i>Ekle</a>
+                                <a target="_blank" href="<%- user.twitter %>"
+                                  class="invisible1 btn btn-just-icon btn-link btn-twitter">
+                                  <i class="fa fa-twitter"></i>
+                                </a>
+                                <% }%>
+                                  <a style="display: none !important; " class="iconbutton1 hovericons"> <i
+                                      class="fa fa-twitter buttonicons"></i>Ekle</a>
 
 
-                            <% if (user.linkedin !=null) { %>
-                              <a href="<%- user.linkedin %>"
-                                class="invisible2 btn btn-just-icon btn-link btn-pinterest">
-                                <i class="fa fa-linkedin"></i>
-                              </a>
-                              <% } %>
-                                <a style="display: none !important;" class="iconbutton2 hovericons"><i
-                                    class='bx bxl-linkedin-square buttonicons'></i>
-                                  Ekle</a>
+                                  <% if (user.linkedin !=null) { %>
+                                    <a target="_blank" href="<%- user.linkedin %>"
+                                      class="invisible2 btn btn-just-icon btn-link btn-pinterest">
+                                      <i class="fa fa-linkedin"></i>
+                                    </a>
+                                    <% } %>
+                                      <a style="display: none !important;" class="iconbutton2 hovericons"><i
+                                          class='bx bxl-linkedin-square buttonicons'></i>
+                                        Ekle</a>
 
+                        </div>
+
+                      </div>
+                    </div>
                   </div>
-
-                </div>
-              </div>
-            </div>
-            <div class="designbuttons">
-              <a style="display: none;
+                  <div class="designbuttons">
+                    <a style="display: none;
             z-index: 2;" id="crop-button">Onayla</a>
-              <a href="/profile" class="cancelled" style="display: none; z-index: 2;">İptal Et</a>
-              <button class="savebutton" style="   display: none;  z-index: 2; " type="submit">Kaydet</button>
+                    <a href="/profile" class="cancelled" style="display: none; z-index: 2;">İptal Et</a>
+                    <button class="savebutton" style="   display: none;  z-index: 2; " type="submit">Kaydet</button>
+                    <% if (user._id==req.user.id) { %>
+                      <a style="z-index: 2;position: relative;" class="duzenle">Düzenle</a>
+                      <% } %>
+                  </div>
+                </div>
+
+
+                <div class="tab-content tab-space"></div>
+
+              </div>
+
             </div>
           </div>
 
+        </form>
+        <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+        <script src="/js/profile.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+          integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+          crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+          integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+          crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+        <script>
+          const pageheader = document.querySelector('.forms')
+          const cropButton = document.querySelector('#crop-button')
+          let cropper;
+          const fileInput = document.querySelector("#links2");
+          const avatarInput = document.querySelector('#links')
 
-          <div class="tab-content tab-space"></div>
-
-        </div>
-        <% if (user._id==req.user.id) { %>
-          <a style="    z-index: 2;
-        position: relative;    z-index: 2;
-    position: relative;
-    border: 2px solid gray;
-    padding: 5px;
-    margin-left: 3px;" class="duzenle">Düzenle</a>
-          <% } %>
-      </div>
-    </div>
-
-  </form>
-  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-  <script src="/js/profile.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
-    integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
-    integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
-  <script>
-    const pageheader = document.querySelector('.forms')
-    const cropButton = document.querySelector('#crop-button')
-    let cropper;
-    const fileInput = document.querySelector("#links2");
-    const avatarInput = document.querySelector('#links')
-
-    const savebutton = document.querySelector('.savebutton')
-    const aboutinput = document.querySelector('.aboutinput')
-    const aboutme = document.querySelector('.aboutme')
-    const cropperOptions = {
-      aspectRatio: 1920 / 1080, // Kırpma oranını istediğiniz şekilde ayarlayın
-      viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
-    };
-    const cropperOptions2 = {
-      aspectRatio: 1 / 1, // Kırpma oranını istediğiniz şekilde ayarlayın
-      viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
-    };
-    const imageElement = document.querySelector(".bannerimg");
-    fileInput.addEventListener("change", function () {
-      cropButton.style.display = 'block'
-      // ...
-      savebutton.style.display = 'none'
-      const selectedFile = fileInput.files[0];
-      const objectURL = URL.createObjectURL(selectedFile);
-      imageElement.src = objectURL;
-
-      cropper = new Cropper(imageElement, cropperOptions);
-
-      // Kırpma işlemini tamamla ve sonuçları al
-      cropButton.onclick = function () {
-        savebutton.style.display = 'inline-block'
-        const croppedCanvas = cropper.getCroppedCanvas();
-        if (croppedCanvas) {
-          const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
-
-          // Kırpılmış resmi img etiketinin src'sine yaz
-          const inputs = document.querySelector("#links22");
-          inputs.value = croppedImageDataURL;
-          console.log('çalıştı');
-          cropButton.style.display = 'none'
-          pageheader.style.background = `url(${croppedImageDataURL})`
-          pageheader.style.backgroundRepeat = 'no-repeat'
-          pageheader.style.backgroundAttachment = 'fixed'
-          pageheader.style.backgroundSize = 'cover'
-          cropper.destroy();
-        }
-      };
-    });
-
-    avatarInput.addEventListener("change", function () {
-      savebutton.style.display = 'none'
-      cropButton.style.display = 'block'
-      const selectedFile = avatarInput.files[0];
-      const objectURL = URL.createObjectURL(selectedFile);
-      imageElement.src = objectURL;
-
-      cropper = new Cropper(imageElement, cropperOptions2);
-
-      // Kırpma işlemini tamamla ve sonuçları al
-      cropButton.onclick = function () {
-        cropButton.style.display = 'none'
-        savebutton.style.display = 'inline-block'
-        const croppedCanvas = cropper.getCroppedCanvas();
-        cropper.destroy();
-        if (croppedCanvas) {
-          const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
-
-          // Kırpılmış resmi img etiketinin src'sine yaz
-          const inputs = document.querySelector("#links1");
-          inputs.value = croppedImageDataURL;
-          console.log(croppedImageDataURL);
-          const imgavatar = document.querySelector('.profileimgs');
-          imgavatar.src = croppedImageDataURL
-
-        }
-      };
-    })
+          const savebutton = document.querySelector('.savebutton')
+          const aboutinput = document.querySelector('.aboutinput')
+          const aboutme = document.querySelector('.aboutme')
+          const instagramclick = document.querySelector('.instagramclick')
+          const twitterclick = document.querySelector('.twitterclick')
+          const linkedinclick = document.querySelector('.linkedinclick')
+          const instagramvalue = document.querySelector('.instagramvalue')
+          const twittervalue = document.querySelector('.twittervalue')
+          const linkedinvalue = document.querySelector('.linkedinvalue')
+          const instagramdata = document.querySelector('.instagramdata')
+          const twitterdata = document.querySelector('.twitterdata')
+          const linkedindata = document.querySelector('.linkedindata')
+          const instagramdiv = document.querySelector('.instagraminput')
+          const twitterdiv = document.querySelector('.twitterinput')
+          const linkedindiv = document.querySelector('.linkedininput')
 
 
-    const duzenle = document.querySelector('.duzenle');
-    const ad = document.querySelector('.ad');
-    const soyad = document.querySelector('.soyad');
-    const paragrafad = document.querySelector('.paragrafad')
-    const iconbutton = document.querySelector('.iconbutton')
-    const iconbutton1 = document.querySelector('.iconbutton1')
-    const iconbutton2 = document.querySelector('.iconbutton2')
+          const instagramcancel = document.querySelector('.instagramcancel')
+          const twittercancel = document.querySelector('.twittercancel')
+          const linkedincancel = document.querySelector('.linkedincancel')
 
-    const invisible = document.querySelector('.invisibles');
-    const invisible1 = document.querySelector('.invisible1');
-    const invisible2 = document.querySelector('.invisible2');
-    const cancelled = document.querySelector('.cancelled');
-    duzenle.onclick = function () {
-      cancelled.style.display = 'inline-block'
-      aboutinput.style.display = 'inline-block'
-      aboutme.style.display = 'none'
-
-      ad.style.display = 'flex'
-      soyad.style.display = 'flex'
-      paragrafad.style.display = 'none'
-
-
-      iconbutton.style.display = 'flex'
-      iconbutton1.style.display = 'flex'
-      iconbutton2.style.display = 'flex'
-      fileInput.style.display = 'inline-block'
-      avatarInput.style.display = 'inline-block'
-      savebutton.style.display = 'inline-block'
-      invisible.style.display = 'none';
-      invisible1.style.display = 'none'
-      invisible2.style.display = 'none'
-
-    }
-
-    iconbutton.onclick = function () {
-      console.log('instagrama tıkladı');
-      const socialinput = document.querySelector('.instagraminput')
-      socialinput.style.display = 'flex'
-    }
-
-    iconbutton1.onclick = function () {
-      console.log('instagrama tıkladı 1');
-      const socialinput = document.querySelector('.twitterinput')
-      socialinput.style.display = 'flex'
-    }
-
-    iconbutton2.onclick = function () {
-      console.log('instagrama tıkladı 2');
-      const socialinput = document.querySelector('.linkedininput')
-      socialinput.style.display = 'flex'
-    }
+          instagramcancel.onclick = function () {
+            instagramdiv.style.display = 'none'
+          }
+          twittercancel.onclick = function () {
+            twitterdiv.style.display = 'none'
+          }
+          linkedincancel.onclick = function () {
+            linkedindiv.style.display = 'none'
+          }
+          instagramclick.onclick = function () {
+            instagramdata.value = instagramvalue.value
+            instagramdiv.style.display = 'none'
+          }
+          twitterclick.onclick = function () {
+            twitterdata.value = twittervalue.value
+            twitterdiv.style.display = 'none'
+          }
+          linkedinclick.onclick = function () {
+            linkedindata.value = linkedinvalue.value
+            linkedindiv.style.display = 'none'
+          }
 
 
 
 
-    // Kırpma işlemini tamamladığınızda Cropper nesnesini yok edin
-  </script>
-</body>
+
+
+
+
+
+
+          const cropperOptions = {
+            aspectRatio: 1920 / 1080, // Kırpma oranını istediğiniz şekilde ayarlayın
+            viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
+          };
+          const cropperOptions2 = {
+            aspectRatio: 1 / 1, // Kırpma oranını istediğiniz şekilde ayarlayın
+            viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
+          };
+          const imageElement = document.querySelector(".bannerimg");
+          fileInput.addEventListener("change", function () {
+            cropButton.style.display = 'block'
+            // ...
+            savebutton.style.display = 'none'
+            const selectedFile = fileInput.files[0];
+            const objectURL = URL.createObjectURL(selectedFile);
+            imageElement.src = objectURL;
+
+            cropper = new Cropper(imageElement, cropperOptions);
+
+            // Kırpma işlemini tamamla ve sonuçları al
+            cropButton.onclick = function () {
+              savebutton.style.display = 'inline-block'
+              const croppedCanvas = cropper.getCroppedCanvas();
+              if (croppedCanvas) {
+                const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
+
+                // Kırpılmış resmi img etiketinin src'sine yaz
+                const inputs = document.querySelector("#links22");
+                inputs.value = croppedImageDataURL;
+                console.log('çalıştı');
+                cropButton.style.display = 'none'
+                pageheader.style.background = `url(${croppedImageDataURL})`
+                pageheader.style.backgroundRepeat = 'no-repeat'
+                pageheader.style.backgroundAttachment = 'fixed'
+                pageheader.style.backgroundSize = 'cover'
+                cropper.destroy();
+              }
+            };
+          });
+
+          avatarInput.addEventListener("change", function () {
+            savebutton.style.display = 'none'
+            cropButton.style.display = 'block'
+            const selectedFile = avatarInput.files[0];
+            const objectURL = URL.createObjectURL(selectedFile);
+            imageElement.src = objectURL;
+
+            cropper = new Cropper(imageElement, cropperOptions2);
+
+            // Kırpma işlemini tamamla ve sonuçları al
+            cropButton.onclick = function () {
+              cropButton.style.display = 'none'
+              savebutton.style.display = 'inline-block'
+              const croppedCanvas = cropper.getCroppedCanvas();
+              cropper.destroy();
+              if (croppedCanvas) {
+                const croppedImageDataURL = croppedCanvas.toDataURL("image/jpeg");
+
+                // Kırpılmış resmi img etiketinin src'sine yaz
+                const inputs = document.querySelector("#links1");
+                inputs.value = croppedImageDataURL;
+                console.log(croppedImageDataURL);
+                const imgavatar = document.querySelector('.profileimgs');
+                imgavatar.src = croppedImageDataURL
+
+              }
+            };
+          })
+
+
+          const duzenle = document.querySelector('.duzenle');
+          const ad = document.querySelector('.ad');
+          const soyad = document.querySelector('.soyad');
+          const paragrafad = document.querySelector('.paragrafad')
+          const iconbutton = document.querySelector('.iconbutton')
+          const iconbutton1 = document.querySelector('.iconbutton1')
+          const iconbutton2 = document.querySelector('.iconbutton2')
+
+          const invisible = document.querySelector('.invisibles');
+          const invisible1 = document.querySelector('.invisible1');
+          const invisible2 = document.querySelector('.invisible2');
+          const cancelled = document.querySelector('.cancelled');
+          duzenle.onclick = function () {
+
+            duzenle.style.display = 'none'
+            cancelled.style.display = 'inline-block'
+            aboutinput.style.display = 'inline-block'
+            aboutme.style.display = 'none'
+
+            ad.style.display = 'flex'
+            soyad.style.display = 'flex'
+            paragrafad.style.display = 'none'
+
+
+            iconbutton.style.display = 'flex'
+            iconbutton1.style.display = 'flex'
+            iconbutton2.style.display = 'flex'
+            fileInput.style.display = 'inline-block'
+            avatarInput.style.display = 'inline-block'
+            savebutton.style.display = 'inline-block'
+            invisible.style.display = 'none';
+            invisible1.style.display = 'none'
+            invisible2.style.display = 'none'
+
+          }
+
+          iconbutton.onclick = function () {
+            console.log('instagrama tıkladı');
+            const socialinput = document.querySelector('.instagraminput')
+            socialinput.style.display = 'flex'
+          }
+
+          iconbutton1.onclick = function () {
+            console.log('instagrama tıkladı 1');
+            const socialinput = document.querySelector('.twitterinput')
+            socialinput.style.display = 'flex'
+          }
+
+          iconbutton2.onclick = function () {
+            console.log('instagrama tıkladı 2');
+            const socialinput = document.querySelector('.linkedininput')
+            socialinput.style.display = 'flex'
+          }
+
+
+
+
+          // Kırpma işlemini tamamladığınızda Cropper nesnesini yok edin
+        </script>
+      </body>

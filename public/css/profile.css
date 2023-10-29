@@ -2,6 +2,10 @@ html * {
     -webkit-font-smoothing: antialiased;
 }
 
+* {
+    font-family: "Roboto Slab", "Times New Roman", serif;
+}
+
 .h6,
 h6 {
     font-size: .75rem !important;
@@ -197,15 +201,110 @@ a .material-icons {
 }
 
 .positiondiv {
-    width: 70%;
-    height: 70%;
+    width: 40%;
+    height: 30%;
     display: flex;
     flex-direction: column;
-    /* align-content: center; */
     align-items: center;
-    justify-content: center;
     background-color: #000000a6;
     color: white;
+    border-radius: 20px;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.instagramlabel {
+    margin-right: 10px;
+}
+
+.socialbutton {
+    color: #1172c4 !important;
+    font-size: 14px;
+    border-color: #1172c4;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 22px;
+    padding: 10px;
+    text-transform: uppercase;
+    transition: all 0.2s linear;
+    max-width: 200px;
+    max-height: 150px;
+    cursor: pointer;
+    background-color: white;
+    text-decoration: none;
+
+}
+
+.socialbutton:hover {
+    color: white !important;
+
+    background: #1172c4 !important;
+
+    border-color: #1172c4;
+    transition: all 0.2s linear;
+    text-decoration: none;
+
+}
+
+.duzenle {
+    color: #1172c4 !important;
+    font-size: 14px;
+    border-color: #1172c4;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 22px;
+    padding: 10px;
+    text-transform: uppercase;
+    transition: all 0.2s linear;
+    max-width: 200px;
+    max-height: 150px;
+    cursor: pointer;
+    background-color: white;
+    text-decoration: none;
+}
+
+.duzenle:hover {
+    color: white !important;
+
+    background: #1172c4 !important;
+
+    border-color: #1172c4;
+    transition: all 0.2s linear;
+    text-decoration: none;
+}
+
+.socialbutton2 {
+    color: #c41111 !important;
+    font-size: 14px;
+    border-color: #c41111;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 22px;
+    padding: 10px;
+    text-transform: uppercase;
+    transition: all 0.2s linear;
+    max-width: 200px;
+    max-height: 150px;
+    cursor: pointer;
+    background-color: white;
+    text-decoration: none;
+
+}
+
+.socialbutton2:hover {
+
+    color: white !important;
+    ;
+    background: #871111 !important;
+    ;
+    border-color: #871111;
+    transition: all 0.2s linear;
+    text-decoration: none;
+}
+
+.positionlinks {
+    display: flex;
+    align-items: center;
 }
 
 .socialmediaicon {
@@ -364,7 +463,11 @@ img.rounded {
 
 .btn.btn-link {
     background-color: transparent;
-    color: #999;
+    color: #223240;
+}
+
+.btn:hover {
+    color: #1172c4;
 }
 
 /* dropdown */
@@ -570,6 +673,28 @@ footer p a:hover {
     text-decoration: none;
 }
 
+.inputdesign {
+    outline: none;
+    border-radius: 20px;
+    border: 2px solid #1172c4;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-size: 15px;
+    padding: 5px;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.socialb {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.inputdesign:focus {
+    border: 2px solid #0e426d;
+}
+
 #crop-button:hover,
 .savebutton:hover {
     color: white !important;
@@ -592,9 +717,6 @@ footer p a:hover {
     transition: 0.3s;
 }
 
-.btn:hover {
-    color: rgb(27, 27, 27);
-}
 
 #crop-button {
     display: none;

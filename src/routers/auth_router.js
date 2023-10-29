@@ -10,12 +10,12 @@ router.post('/login', authMiddleware.oturumAcilmamis, validatorMiddleware.valida
 router.get('/register', authMiddleware.oturumAcilmamis, authController.registerFormunuGoster);
 router.post('/register', authMiddleware.oturumAcilmamis, validatorMiddleware.validateNewUser(), authController.register);
 
-router.get('/forget-password',authMiddleware.oturumAcilmamis, authController.forgetPasswordFormunuGoster);
+router.get('/forget-password', authMiddleware.oturumAcilmamis, authController.forgetPasswordFormunuGoster);
 router.post('/forget-password', authMiddleware.oturumAcilmamis, validatorMiddleware.validateEmail(), authController.forgetPassword);
 
 router.get('/verify', authController.verifyMail);
-router.get('/profile', authMiddleware.oturumAcilmis , authController.openprofilepage)
-router.post('/profile',authMiddleware.oturumAcilmis,authController.postprofilepage)
+router.get('/profile', authMiddleware.oturumAcilmis, authController.openprofilepage)
+router.post('/profile', authMiddleware.oturumAcilmis, authController.postprofilepage)
 router.get('/reset-password/:id/:token', authController.yeniSifreFormuGoster);
 router.get('/reset-password', authController.yeniSifreFormuGoster);
 router.post('/reset-password', validatorMiddleware.validateNewPassword(), authController.yeniSifreyiKaydet);
