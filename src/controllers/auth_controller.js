@@ -392,7 +392,7 @@ const postprofilepage = async function (req, res, next) {
     const guncelBilgiler = {
         ad: req.body.ad,
         soyad: req.body.soyad,
-
+        userabout: req.body.userabout
     }
 
 

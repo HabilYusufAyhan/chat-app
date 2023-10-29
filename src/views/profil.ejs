@@ -1,4 +1,5 @@
 <head>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" />
@@ -12,14 +13,16 @@
     href="https://rawgit.com/creativetimofficial/material-kit/master/assets/css/material-kit.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
   <link rel="stylesheet" href="/css/profile.css" />
+
 </head>
 <style>
-  .page-header::after {
-    background: url("/uploads/avatars/<%- user.banner %>");
+  .forms {
+
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
     z-index: 1;
+    height: 100%;
   }
 
   .page-header {
@@ -29,7 +32,9 @@
 
 <body class="profile-page">
 
-  <form action="/profile" method="post">
+  <form style="background: url('/uploads/avatars/<%- user.banner %>');    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;" class="forms" action="/profile" method="post">
     <div style="display: none;" class="instagraminput socialinput">
       <div class="positiondiv">
         <label class="instagramlabel">Link:</label>
@@ -56,8 +61,7 @@
     <input type="hidden" name="links2" id="links22" />
 
 
-    <div class="page-header header-filter" data-parallax="true"
-      style="background-image: url('/uploads/avatars/<%- user.banner %>')"></div>
+    <div class="page-header header-filter" data-parallax="true"></div>
     <img class="onizleme" style="position: absolute;" src="" alt="">
     <div class="main main-raised">
       <div style="    padding-bottom: 10px;" class="profile-content">
@@ -70,7 +74,7 @@
                   <input style="display: none;" id="links" type="file" />
                   <input type="hidden" name="links1" id="links1" />
                   <img src="/uploads/avatars/<%- user.avatar %>" alt="Circle Image"
-                    class="img-raised rounded-circle img-fluid" />
+                    class="profileimgs img-raised rounded-circle img-fluid" />
                 </div>
 
                 <div class="name">
@@ -81,7 +85,13 @@
                       name="soyad" type="text" />
                     <p style="font-size: 20px;" class="paragrafad"><%- user.ad + ' ' + user.soyad %></p>
                   </h3>
-
+                  <div class="description text-center">
+                    <input placeholder="Hakkında" class="aboutinput" style="display: none;" name="userabout" type="text"
+                      value="<%- user.userabout %>">
+                    <p class="aboutme">
+                      <%- user.userabout %>
+                    </p>
+                  </div>
                   <div style="    display: flex;
                   flex-direction: row;
                   flex-wrap: nowrap;
@@ -92,15 +102,18 @@
                         <i class="fa fa-instagram"></i>
                       </a>
                       <% } %>
-                        <a style="display: none !important; " class="iconbutton hovericons">İnstagram Hesabı Ekle</a>
+                        <a style="display: none !important; " class="iconbutton hovericons"> <i
+                            class="fa fa-instagram buttonicons"></i> Ekle</a>
 
 
                         <% if (user.twitter !=null) { %>
+
                           <a href="<%- user.twitter %>" class="invisible1 btn btn-just-icon btn-link btn-twitter">
                             <i class="fa fa-twitter"></i>
                           </a>
                           <% }%>
-                            <a style="display: none !important; " class="iconbutton1 hovericons">Twitter Hesabı Ekle</a>
+                            <a style="display: none !important; " class="iconbutton1 hovericons"> <i
+                                class="fa fa-twitter buttonicons"></i>Ekle</a>
 
 
                             <% if (user.linkedin !=null) { %>
@@ -109,25 +122,23 @@
                                 <i class="fa fa-linkedin"></i>
                               </a>
                               <% } %>
-                                <a style="display: none !important;" class="iconbutton2 hovericons">Linkedin Hesabı
+                                <a style="display: none !important;" class="iconbutton2 hovericons"><i
+                                    class='bx bxl-linkedin-square buttonicons'></i>
                                   Ekle</a>
 
                   </div>
+
                 </div>
               </div>
             </div>
             <div class="designbuttons">
               <a style="display: none;
             z-index: 2;" id="crop-button">Onayla</a>
-
+              <a href="/profile" class="cancelled" style="display: none; z-index: 2;">İptal Et</a>
               <button class="savebutton" style="   display: none;  z-index: 2; " type="submit">Kaydet</button>
             </div>
           </div>
-          <div class="description text-center">
-            <p>
-              <%- user.userabout %>
-            </p>
-          </div>
+
 
           <div class="tab-content tab-space"></div>
 
@@ -144,7 +155,7 @@
     </div>
 
   </form>
-
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   <script src="/js/profile.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -156,13 +167,15 @@
     crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
   <script>
-    const pageheader = document.querySelector('.page-header')
+    const pageheader = document.querySelector('.forms')
     const cropButton = document.querySelector('#crop-button')
     let cropper;
     const fileInput = document.querySelector("#links2");
     const avatarInput = document.querySelector('#links')
-    const imgavatar = document.querySelector('img-raised');
+
     const savebutton = document.querySelector('.savebutton')
+    const aboutinput = document.querySelector('.aboutinput')
+    const aboutme = document.querySelector('.aboutme')
     const cropperOptions = {
       aspectRatio: 1920 / 1080, // Kırpma oranını istediğiniz şekilde ayarlayın
       viewMode: 1, // Kırpma bölgesini tam ekran olarak ayarlar
@@ -193,8 +206,11 @@
           const inputs = document.querySelector("#links22");
           inputs.value = croppedImageDataURL;
           console.log('çalıştı');
-
-          pageheader.style.backgroundImage = `url(${croppedImageDataURL})`
+          cropButton.style.display = 'none'
+          pageheader.style.background = `url(${croppedImageDataURL})`
+          pageheader.style.backgroundRepeat = 'no-repeat'
+          pageheader.style.backgroundAttachment = 'fixed'
+          pageheader.style.backgroundSize = 'cover'
           cropper.destroy();
         }
       };
@@ -211,7 +227,7 @@
 
       // Kırpma işlemini tamamla ve sonuçları al
       cropButton.onclick = function () {
-
+        cropButton.style.display = 'none'
         savebutton.style.display = 'inline-block'
         const croppedCanvas = cropper.getCroppedCanvas();
         cropper.destroy();
@@ -222,6 +238,7 @@
           const inputs = document.querySelector("#links1");
           inputs.value = croppedImageDataURL;
           console.log(croppedImageDataURL);
+          const imgavatar = document.querySelector('.profileimgs');
           imgavatar.src = croppedImageDataURL
 
         }
@@ -240,15 +257,20 @@
     const invisible = document.querySelector('.invisibles');
     const invisible1 = document.querySelector('.invisible1');
     const invisible2 = document.querySelector('.invisible2');
+    const cancelled = document.querySelector('.cancelled');
     duzenle.onclick = function () {
+      cancelled.style.display = 'inline-block'
+      aboutinput.style.display = 'inline-block'
+      aboutme.style.display = 'none'
+
       ad.style.display = 'flex'
       soyad.style.display = 'flex'
       paragrafad.style.display = 'none'
 
 
-      iconbutton.style.display = 'inline-block'
-      iconbutton1.style.display = 'inline-block'
-      iconbutton2.style.display = 'inline-block'
+      iconbutton.style.display = 'flex'
+      iconbutton1.style.display = 'flex'
+      iconbutton2.style.display = 'flex'
       fileInput.style.display = 'inline-block'
       avatarInput.style.display = 'inline-block'
       savebutton.style.display = 'inline-block'
