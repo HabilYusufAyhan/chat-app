@@ -1,7 +1,7 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
 const app = express();
-const expressWs = require('express-ws')(app);
+
 //session işlemleri için gereken paket
 const session = require('express-session');
 //render edilen sayfalarda mesaj göstermek için kullanılan
@@ -95,24 +95,7 @@ app.use('/', authRouter);
 app.listen(process.env.PORT, () => {
     console.log(`Server ${process.env.PORT} portundan ayaklandı`);
 })
-app.ws('/', (ws, req) => {
-    console.log('WebSocket bağlantısı kuruldu.');
 
-    ws.on('message', (message) => {
-        console.log(`İstemciden gelen mesaj: ${message}`);
-
-        // Gelen mesajı diğer istemcilere yayınla
-        expressWs.getWss().clients.forEach((client) => {
-            if (client !== ws) {
-                client.send(message);
-            }
-        });
-    });
-
-    ws.on('close', () => {
-        console.log('WebSocket bağlantısı kapatıldı.');
-    });
-});
 
 
 
