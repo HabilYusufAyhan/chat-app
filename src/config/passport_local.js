@@ -8,7 +8,7 @@ module.exports = function (passport) {
         passwordField: 'sifre'
     };
     passport.use(new LocalStrategy(options, async (email, sifre, done) => {
-        
+
 
         try {
             const _bulunanUser = await User.findOne({ email: email });
@@ -24,15 +24,15 @@ module.exports = function (passport) {
 
                 if (_bulunanUser && _bulunanUser.emailAktif === false) {
                     return done(null, false, { message: 'Lütfen emailiniz onaylayın' });
-                }else 
+                } else
                     return done(null, _bulunanUser);
             }
 
-           
 
-           
 
-            
+
+
+
         } catch (err) {
             return done(err);
         }
@@ -42,30 +42,30 @@ module.exports = function (passport) {
     }));
 
     passport.serializeUser(function (user, done) {
-       
+
         done(null, user.id);
-      });
-      
+    });
+
     passport.deserializeUser(function (id, done) {
-       
+
         User.findById(id, function (err, user) {
             const yeniUser = {
-                id:user.id,
+                id: user.id,
                 email: user.email,
                 ad: user.ad,
-                soyad:user.soyad,
-                sifre:user.sifre,
+                soyad: user.soyad,
+                sifre: user.sifre,
                 olusturulmaTarihi: user.createdAt,
-                avatar:user.avatar,
-                banner:user.banner,
-                userabout:user.userabout,
-                instagram:user.instagram,
-                twitter:user.twitter,
-                linkedin:user.linkedin
-          }
-          done(err, yeniUser);
+                avatar: user.avatar,
+                banner: user.banner,
+                userabout: user.userabout,
+                instagram: user.instagram,
+                twitter: user.twitter,
+                linkedin: user.linkedin
+            }
+            done(err, yeniUser);
         });
-      });
+    });
 
 
 

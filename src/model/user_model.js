@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    socketid: {
+        type: String
+
+    },
     ad: {
         type: String,
         required: [true, "Ad alanı boş olamaz"],

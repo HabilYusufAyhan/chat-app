@@ -1,5 +1,6 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
+const socket = require('socket.io');
 const app = express();
 
 //session işlemleri için gereken paket
@@ -69,6 +70,9 @@ app.use(passport.session());
 
 //routerlar include edilir
 const authRouter = require('./src/routers/auth_router');
+const User = require('./src/model/user_model');
+const { id } = require('./src/controllers/auth_controller');
+const Chat = require('./src/model/chat_model');
 
 
 
@@ -78,23 +82,90 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 app.use(express.json({ limit: '10mb' })); // JSON veri limiti ayarı
 
 
-let sayac = 0;
+let requestid
 
-app.get('/', (req, res) => {
-    if (req.session.sayac) {
-        req.session.sayac++;
-    } else {
-        req.session.sayac = 1;
-    }
-    res.json({ mesaj: 'merhaba', sayacim: req.session.sayac, kullanici: req.user });
+app.get('/chat', (req, res, next) => {
+
+
+
+    requestid = req
+    next();
 });
 
 app.use('/', authRouter);
 
 
-app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT, async () => {
     console.log(`Server ${process.env.PORT} portundan ayaklandı`);
 })
+
+const io = socket(server)
+
+io.on('connection', async (socket) => {
+
+    console.log(requestid);
+
+    console.log(socket.id);
+
+    // Burada requestid'in nasıl tanımlandığını ve kullanılması gerektiğini kontrol edin.
+    // Eğer requestid kullanıcı kimliğini içeriyorsa, doğru şekilde alın.
+    const userId = requestid; // Örnek olarak requestid, kullanıcı kimliği içeriyorsa.
+
+    if (userId) {
+        try {
+            const user = await User.findOne({ _id: userId.user.id });
+
+            if (user) {
+                user.socketid = socket.id;
+                await user.save();
+                // Kullanıcının socket bilgilerini kaydetmek veya başka işlemler yapmak için burada devam edin.
+
+                console.log(user);
+            } else {
+                console.log('Kullanıcı bulunamadı');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    } else {
+        console.log('Geçersiz kullanıcı kimliği (requestid)');
+    }
+    socket.on('disconnect', async () => {
+        // Kullanıcı bağlantısı koparsa, Socket ID'sini kaldır
+        const user = await User.findOne({ socketid: socket.id });
+        if (user) {
+            user.socketid = null
+            await user.save();
+        }
+    });
+    socket.on('chat', async data => {
+        const chatuser = await User.findOne({ _id: userId.query.id });
+        const user = await User.findOne({ _id: userId.user.id })
+        const newMessage = new Chat({
+            mesaj: [
+                { sender: user._id, receiver: chatuser._id, content: data.message }
+            ]
+        })
+        await newMessage.save();
+        data.sender = user._id
+        data.receiver = chatuser._id
+        console.log(data);
+        io.to(user.socketid).emit('chat', data);
+        io.to(chatuser.socketid).emit('chat', data);
+
+    });
+});
+//Bu kod parçasında requestid değişkenini nasıl almanız gerektiğine dikkat edin. Ayrıca, kullanıcı bulunamazsa veya requestid geçersizse ilgili hataları işlemek için try-catch blokları kullanılmıştır. Bu şekilde hataların daha iyi ele alınmasını sağlayabilirsiniz.
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -466,9 +466,9 @@ const postprofilepage = async function (req, res, next) {
 
 const openchatpage = async function (req, res, next) {
 
-
+    let receiver = await User.findOne({ _id: req.query.id })
     let usesr = await User.findOne({ _id: req.user.id })
-    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat' });
+    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver });
 }
 const sendfriendreq = async function (req, res, next) {
     if (req.query.id != req.user.id) {
