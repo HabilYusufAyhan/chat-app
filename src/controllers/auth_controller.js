@@ -5,6 +5,7 @@ require('../config/passport_local')(passport);
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
+const Chat = require('../model/chat_model');
 
 const loginFormunuGoster = (req, res, next) => {
     res.render('login', { layout: './layout/auth_layout.ejs', title: 'Giriş Yap' });
@@ -461,6 +462,27 @@ const postprofilepage = async function (req, res, next) {
         console.log(hata);
     }
 }
+
+
+const openchatpage = async function (req, res, next) {
+
+
+    let usesr = await User.findOne({ _id: req.user.id })
+    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat' });
+}
+const sendfriendreq = async function (req, res, next) {
+    if (req.query.id != req.user.id) {
+        let requser = await User.findOne({ _id: req.query.id })
+        if (requser) {
+            // Eğer kullanıcı bulunduysa, friendreq dizisine req.user.id ekleyin.
+            requser.friendsreq.push(req.user.id);
+
+            // Değişikliği kaydedin.
+            await requser.save();
+            res.redirect('/chat')
+        }
+    }
+}
 module.exports = {
     loginFormunuGoster,
     registerFormunuGoster,
@@ -473,5 +495,7 @@ module.exports = {
     yeniSifreFormuGoster,
     yeniSifreyiKaydet,
     openprofilepage,
-    postprofilepage
+    postprofilepage,
+    openchatpage,
+    sendfriendreq
 }

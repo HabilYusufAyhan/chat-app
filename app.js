@@ -1,6 +1,7 @@
 const dotenv = require('dotenv').config();
 const express = require('express');
 const app = express();
+const expressWs = require('express-ws')(app);
 //session işlemleri için gereken paket
 const session = require('express-session');
 //render edilen sayfalarda mesaj göstermek için kullanılan
@@ -15,7 +16,7 @@ const ejs = require('ejs');
 const path = require('path');
 
 app.use(express.static('public'));
-app.use("/uploads", express.static(path.join(__dirname,'/src/uploads')));
+app.use("/uploads", express.static(path.join(__dirname, '/src/uploads')));
 app.set('view engine', 'ejs');
 app.set('views', path.resolve(__dirname, './src/views'));
 
@@ -23,11 +24,11 @@ app.set('views', path.resolve(__dirname, './src/views'));
 //db baglantısı
 require('./src/config/database');
 const MongoDBStore = require('connect-mongodb-session')(session);
- 
+
 
 const sessionStore = new MongoDBStore({
-  uri: process.env.MONGODB_CONNECTION_STRING,
-  collection: 'sessionlar'
+    uri: process.env.MONGODB_CONNECTION_STRING,
+    collection: 'sessionlar'
 });
 
 
@@ -38,9 +39,9 @@ app.use(session(
         resave: false,
         saveUninitialized: true,
         cookie: {
-            maxAge:1000 * 60 * 60 * 24
+            maxAge: 1000 * 60 * 60 * 24
         },
-        store:sessionStore
+        store: sessionStore
     }
 ));
 
@@ -55,10 +56,10 @@ app.use((req, res, next) => {
     res.locals.soyad = req.flash('soyad');
     res.locals.sifre = req.flash('sifre');
     res.locals.resifre = req.flash('resifre');
-    
+
     res.locals.login_error = req.flash('error');
-    
-   
+
+
     next();
 })
 
@@ -82,10 +83,10 @@ let sayac = 0;
 app.get('/', (req, res) => {
     if (req.session.sayac) {
         req.session.sayac++;
-    } else { 
+    } else {
         req.session.sayac = 1;
     }
-    res.json({ mesaj: 'merhaba', sayacim: req.session.sayac, kullanici:req.user });
+    res.json({ mesaj: 'merhaba', sayacim: req.session.sayac, kullanici: req.user });
 });
 
 app.use('/', authRouter);
@@ -94,3 +95,24 @@ app.use('/', authRouter);
 app.listen(process.env.PORT, () => {
     console.log(`Server ${process.env.PORT} portundan ayaklandı`);
 })
+app.ws('/', (ws, req) => {
+    console.log('WebSocket bağlantısı kuruldu.');
+
+    ws.on('message', (message) => {
+        console.log(`İstemciden gelen mesaj: ${message}`);
+
+        // Gelen mesajı diğer istemcilere yayınla
+        expressWs.getWss().clients.forEach((client) => {
+            if (client !== ws) {
+                client.send(message);
+            }
+        });
+    });
+
+    ws.on('close', () => {
+        console.log('WebSocket bağlantısı kapatıldı.');
+    });
+});
+
+
+

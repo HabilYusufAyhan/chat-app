@@ -22,4 +22,12 @@ router.post('/reset-password', validatorMiddleware.validateNewPassword(), authCo
 router.get('/logout', authMiddleware.oturumAcilmis, authController.logout);
 
 
+router.get('/chat', authMiddleware.oturumAcilmis, authController.openchatpage)
+
+
+
+
+router.get('/friendreq', authMiddleware.oturumAcilmis, authController.sendfriendreq)
+
+
 module.exports = router;

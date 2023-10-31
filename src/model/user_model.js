@@ -4,17 +4,17 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
     ad: {
         type: String,
-        required: [true,"Ad alanı boş olamaz"],
+        required: [true, "Ad alanı boş olamaz"],
         trim: true,
         minlength: 2,
-        maxlength:30
+        maxlength: 30
     },
     soyad: {
         type: String,
         required: true,
         trim: true,
         minlength: 2,
-        maxlength:[30,"soyadı maksimum 30 karakter olmalı"]
+        maxlength: [30, "soyadı maksimum 30 karakter olmalı"]
     },
     email: {
         type: String,
@@ -22,11 +22,11 @@ const UserSchema = new Schema({
         trim: true,
         unique: true,
         lowercase: true
-        
+
     },
     avatar: {
         type: String,
-        default:'default.png' 
+        default: 'default.png'
     },
     emailAktif: {
         type: Boolean,
@@ -38,25 +38,37 @@ const UserSchema = new Schema({
         trim: true,
     },
     banner: {
-        type:String,
-        default:'defaultbanner.jpg'
+        type: String,
+        default: 'defaultbanner.jpg'
     },
-    userabout:{
-        type:String,
-        default:'Merhaba Ben Yeni Bir Kullanıcıyım'
+    userabout: {
+        type: String,
+        default: 'Merhaba Ben Yeni Bir Kullanıcıyım'
     },
-    instagram:{
-        type:String,
-        default:null
+    instagram: {
+        type: String,
+        default: null
     },
-    twitter:{
-        type:String,
-        default:null
+    twitter: {
+        type: String,
+        default: null
     },
-    linkedin:{
-        type:String,
-        default:null
+    linkedin: {
+        type: String,
+        default: null
     },
+    mesajid: {
+        type: Array,
+        default: null
+    },
+    friends: {
+        type: Array,
+        default: null
+    },
+    friendsreq: {
+        type: Array,
+        default: null
+    }
 }, { collection: 'kullanicilar', timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
