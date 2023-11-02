@@ -10,6 +10,10 @@ const chatSchema = new Schema({
         type: String,
         trim: true,
     },
+    gonderen: {
+        type: String,
+        trim: true
+    }
 
 
 }, { collection: 'mesajlar', timestamps: true });

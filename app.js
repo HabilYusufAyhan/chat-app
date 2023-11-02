@@ -103,9 +103,9 @@ const io = socket(server)
 
 io.on('connection', async (socket) => {
 
-    console.log(requestid);
+    //console.log(requestid);
 
-    console.log(socket.id);
+    //console.log(socket.id);
 
     // Burada requestid'in nasıl tanımlandığını ve kullanılması gerektiğini kontrol edin.
     // Eğer requestid kullanıcı kimliğini içeriyorsa, doğru şekilde alın.
@@ -120,7 +120,7 @@ io.on('connection', async (socket) => {
                 await user.save();
                 // Kullanıcının socket bilgilerini kaydetmek veya başka işlemler yapmak için burada devam edin.
 
-                console.log(user);
+                //console.log(user);
             } else {
                 console.log('Kullanıcı bulunamadı');
             }
@@ -143,7 +143,8 @@ io.on('connection', async (socket) => {
         const user = await User.findOne({ _id: userId.user.id })
         const newMessage = new Chat({
             mesaj: data.message,
-            id: chatuser._id + user._id
+            id: chatuser._id + user._id,
+            gonderen: user._id
         })
         await newMessage.save();
         data.sender = user._id
@@ -152,7 +153,7 @@ io.on('connection', async (socket) => {
         data.socket = chatuser.socketid
         data.usersocket = user.socketid
         data.me = false
-        console.log(data, socket.id);
+        //console.log(data, socket.id);
         //io.to(user.socketid).emit('chat', data2);
 
 

@@ -67,7 +67,22 @@
 
                 <section>
                     <div class="chat-box">
+                        <% message.forEach(element=> { %>
+                            <% if (user.id===element.gonderen) { %>
+                                <div class="message sent">
+                                    <div class="message-content">
+                                        <%- element.mesaj %>
+                                    </div>
+                                </div>
+                                <% } else { %>
+                                    <div class="message received">
+                                        <div class="message-content">
+                                            <%- element.mesaj %>
+                                        </div>
+                                    </div>
+                                    <% } %>
 
+                                        <% }) %>
 
                     </div>
                 </section>

@@ -465,6 +465,15 @@ const postprofilepage = async function (req, res, next) {
 
 
 const openchatpage = async function (req, res, next) {
+
+    var message = [];
+    var searchid1 = req.user.id + req.query.id
+    var searchid2 = req.query.id + req.user.id;
+    var datamessage1 = await Chat.find({ id: searchid1 })
+    var datamessage2 = await Chat.find({ id: searchid2 })
+    message = message.concat(datamessage1, datamessage2);
+    message.sort((a, b) => a.createdAt - b.createdAt);
+    console.log(message);
     let receiver
     const userIdToExclude = req.user.id;
     const alluser = await User.find({ _id: { $ne: userIdToExclude } });
@@ -472,7 +481,7 @@ const openchatpage = async function (req, res, next) {
         receiver = await User.findOne({ _id: req.query.id })
     }
     let usesr = await User.findOne({ _id: req.user.id })
-    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver, alluser: alluser });
+    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver, alluser: alluser, message: message });
 }
 const sendfriendreq = async function (req, res, next) {
     if (req.query.id != req.user.id) {
