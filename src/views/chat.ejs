@@ -32,50 +32,51 @@
             <div class="searchbar">
                 <input type="search" placeholder="Ara..." /><button>Ara</button>
             </div>
-            <div class="user">
-                <div class="image">
-                    <img src="img/h.jpeg" />
-                </div>
-                <div class="description">
-                    <h3>Mark Zuckerburg</h3>
-                    <span class="online">online</span>
-                </div>
-            </div>
-            <div class="user">
-                <div class="image">
-                    <img src="img/h.jpeg" />
-                </div>
-                <div class="description">
-                    <h3>Mark Zuckerburg</h3>
-                    <span class="offline">offline</span>
-                </div>
-            </div>
-        </div>
-        <div class="chat">
-            <header>
-                <img src="/uploads/avatars/<%- receiver.avatar %>" />
-                <h2><%- receiver.ad %> <%- receiver.soyad %></h2>
-                <div class="settings">
-                    <i class="fa-solid fa-list-ul"></i>
-                </div>
-            </header>
-            <section>
-                <div class="chat-box">
-                    <div class="message received">
-                        <div class="message-content"> Merhaba! İyiyim, teşekkür ederim.</div>
-                    </div>
-                    <div class="message sent">
-                        <div class="message-content">
-                            Merhaba Nasılsın?
+            <% alluser.forEach(element=> { %>
+                <a href="/chat?id=<%- element._id %>">
+                    <div class="user">
+                        <div class="image">
+                            <img src="/uploads/avatars/<%- element.avatar %>" />
+                        </div>
+                        <div class="description">
+                            <h3><%- element.ad %> <%- element.soyad %></h3>
+
+                            <% if (element.socketid !=null) { %>
+                                <span class="online">Online</span>
+                                <% } %>
+                                    <% if (element.socketid==null) { %>
+                                        <span class="offline">Offline</span>
+                                        <% } %>
+
                         </div>
                     </div>
-                </div>
-            </section>
+                </a>
+                <% }) %>
 
-            <div class="input-container">
-                <input type="text" id="message-input" placeholder="Mesajınızı girin" />
-                <button class="gonder">Gönder</button>
-            </div>
+
+        </div>
+        <div class="chat">
+            <% if (receiver) { %>
+                <header>
+                    <img src="/uploads/avatars/<%- receiver.avatar %>" />
+                    <h2><%- receiver.ad %> <%- receiver.soyad %></h2>
+                    <div class="settings">
+                        <i class="fa-solid fa-list-ul"></i>
+                    </div>
+                </header>
+
+                <section>
+                    <div class="chat-box">
+
+
+                    </div>
+                </section>
+
+                <div class="input-container">
+                    <input type="text" class="mesaj" id="message-input" placeholder="Mesajınızı girin" />
+                    <button class="gonder">Gönder</button>
+                </div>
+                <% } %>
         </div>
     </div>
     <script src="/js/chat.js"></script>

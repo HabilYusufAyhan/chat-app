@@ -142,15 +142,21 @@ io.on('connection', async (socket) => {
         const chatuser = await User.findOne({ _id: userId.query.id });
         const user = await User.findOne({ _id: userId.user.id })
         const newMessage = new Chat({
-            mesaj: [
-                { sender: user._id, receiver: chatuser._id, content: data.message }
-            ]
+            mesaj: data.message,
+            id: chatuser._id + user._id
         })
         await newMessage.save();
         data.sender = user._id
         data.receiver = chatuser._id
-        console.log(data);
-        io.to(user.socketid).emit('chat', data);
+        data.query = userId.query.id
+        data.socket = chatuser.socketid
+        data.usersocket = user.socketid
+        data.me = false
+        console.log(data, socket.id);
+        //io.to(user.socketid).emit('chat', data2);
+
+
+
         io.to(chatuser.socketid).emit('chat', data);
 
     });

@@ -465,10 +465,14 @@ const postprofilepage = async function (req, res, next) {
 
 
 const openchatpage = async function (req, res, next) {
-
-    let receiver = await User.findOne({ _id: req.query.id })
+    let receiver
+    const userIdToExclude = req.user.id;
+    const alluser = await User.find({ _id: { $ne: userIdToExclude } });
+    if (req.query.id) {
+        receiver = await User.findOne({ _id: req.query.id })
+    }
     let usesr = await User.findOne({ _id: req.user.id })
-    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver });
+    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver, alluser: alluser });
 }
 const sendfriendreq = async function (req, res, next) {
     if (req.query.id != req.user.id) {
