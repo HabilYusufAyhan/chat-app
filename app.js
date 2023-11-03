@@ -161,8 +161,22 @@ io.on('connection', async (socket) => {
         io.to(chatuser.socketid).emit('chat', data);
 
     });
+    socket.on('typing', async data => {
+        const chatuser = await User.findOne({ _id: userId.query.id });
+        const user = await User.findOne({ _id: userId.user.id })
+        data.sender = user._id
+
+
+        //console.log(data, socket.id);
+        //io.to(user.socketid).emit('chat', data2);
+
+
+
+        io.to(chatuser.socketid).emit('typing', data);
+
+    })
 });
-//Bu kod parçasında requestid değişkenini nasıl almanız gerektiğine dikkat edin. Ayrıca, kullanıcı bulunamazsa veya requestid geçersizse ilgili hataları işlemek için try-catch blokları kullanılmıştır. Bu şekilde hataların daha iyi ele alınmasını sağlayabilirsiniz.
+
 
 
 
