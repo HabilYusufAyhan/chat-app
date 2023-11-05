@@ -105,7 +105,7 @@ io.on('connection', async (socket) => {
 
     //console.log(requestid);
 
-    //console.log(socket.id);
+    console.log(socket.id);
 
     // Burada requestid'in nasıl tanımlandığını ve kullanılması gerektiğini kontrol edin.
     // Eğer requestid kullanıcı kimliğini içeriyorsa, doğru şekilde alın.

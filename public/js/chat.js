@@ -67,10 +67,12 @@ socket.on('chat', data => {
 
 })
 
-input.addEventListener('keydown', () => {
-    socket.emit('typing', {
-        yaziyor: true
-    })
+input.addEventListener('input', () => {
+    if (input.value != '') {
+        socket.emit('typing', {
+            yaziyor: true
+        })
+    }
 })
 
 
