@@ -10,10 +10,7 @@ const chatSchema = new Schema({
         type: String,
         trim: true,
     },
-    roomid: {
-        type: String,
-        trim: true
-    }
+
 
 
 }, { collection: 'room', timestamps: true });

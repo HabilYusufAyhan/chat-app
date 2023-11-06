@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const Chat = require('../model/chat_model');
+const Room = require('../model/room_model');
 
 const loginFormunuGoster = (req, res, next) => {
     res.render('login', { layout: './layout/auth_layout.ejs', title: 'Giriş Yap' });
@@ -485,6 +486,14 @@ const openchatpage = async function (req, res, next) {
 }
 const sendfriendreq = async function (req, res, next) {
     if (req.query.id != req.user.id) {
+
+
+        const newRoom = new Room({
+            user1: req.user.id,
+            user2: req.query.id,
+
+        })
+        await newRoom.save();
         let requser = await User.findOne({ _id: req.query.id })
         if (requser) {
             // Eğer kullanıcı bulunduysa, friendreq dizisine req.user.id ekleyin.
