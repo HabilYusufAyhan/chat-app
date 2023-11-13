@@ -474,36 +474,107 @@ const openchatpage = async function (req, res, next) {
     var datamessage2 = await Chat.find({ id: searchid2 })
     message = message.concat(datamessage1, datamessage2);
     message.sort((a, b) => a.createdAt - b.createdAt);
-    console.log(message);
+
     let receiver
-    const userIdToExclude = req.user.id;
-    const alluser = await User.find({ _id: { $ne: userIdToExclude } });
+
+    let user = await User.findOne({ _id: req.user.id });
+    let friends = [];
+    for (let index = 0; index < user.friends.length; index++) {
+        friends[index] = await User.findOne({ _id: user.friends[index] })
+
+    }
+
     if (req.query.id) {
+        //bu kullanıcı ile arkadaş mı onun kontrolü yapılacak
         receiver = await User.findOne({ _id: req.query.id })
     }
     let usesr = await User.findOne({ _id: req.user.id })
-    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver, alluser: alluser, message: message });
+
+    console.log('sasasa' + friends);
+    res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver, alluser: friends, message: message });
+}
+
+
+const getfriendreq = async function (req, res, next) {
+    const user = await User.findOne({ _id: req.user.id });
+    const allfriendreq = [];
+
+    for (const friendId of user.friendsreq) {
+        const resuser = await User.findOne({ _id: friendId });
+        allfriendreq.push(resuser);
+    }
+
+    res.json(allfriendreq);
+
+}
+
+const acceptfriendreq = async function (req, res, next) {
+    if (req.query.id != req.user.id) {
+        let roomsize = await Room.find()
+        console.log(roomsize.length);
+        const newRoom = new Room({
+            user1: req.user.id,
+            user2: req.query.id,
+            roomid: roomsize.length
+        })
+        await newRoom.save();
+        let requser = await User.findOne({ _id: req.query.id })
+        let mainuser = await User.findOne({ _id: req.user.id })
+        if (requser) {
+            // Eğer kullanıcı bulunduysa, friendreq dizisine req.user.id ekleyin.
+            mainuser.friendsreq.remove(req.query.id);
+            requser.friends.push(req.user.id)
+            mainuser.friends.push(req.query.id)
+            // Değişikliği kaydedin.
+            await requser.save();
+            await mainuser.save();
+            res.redirect('/chat')
+        }
+    }
 }
 const sendfriendreq = async function (req, res, next) {
     if (req.query.id != req.user.id) {
 
-
-        const newRoom = new Room({
-            user1: req.user.id,
-            user2: req.query.id,
-
-        })
-        await newRoom.save();
         let requser = await User.findOne({ _id: req.query.id })
+
         if (requser) {
             // Eğer kullanıcı bulunduysa, friendreq dizisine req.user.id ekleyin.
             requser.friendsreq.push(req.user.id);
 
             // Değişikliği kaydedin.
             await requser.save();
+
             res.redirect('/chat')
         }
     }
+}
+const rejectfriendreq = async function (req, res, next) {
+    if (req.query.id != req.user.id) {
+
+        let requser = await User.findOne({ _id: req.user.id })
+
+        if (requser) {
+            // Eğer kullanıcı bulunduysa, friendreq dizisine req.user.id ekleyin.
+            requser.friendsreq.remove(req.query.id);
+
+            // Değişikliği kaydedin.
+            await requser.save();
+
+            res.redirect('/chat')
+        }
+    }
+}
+const searchvalue = async function (req, res, next) {
+    const searchuser = await User.find({ email: { $regex: `^${req.body.searchText}`, $options: 'i' } });
+    console.log(searchuser);
+    res.json(searchuser);
+}
+const openchangepassword = async function (req, res, next) {
+    res.render('change_password.ejs', { title: 'Şifre Değiştir' });
+}
+const postchangepassword = async function (req, res, next) {
+    const oldpass = req.body.oldsifre;
+
 }
 module.exports = {
     loginFormunuGoster,
@@ -519,5 +590,11 @@ module.exports = {
     openprofilepage,
     postprofilepage,
     openchatpage,
-    sendfriendreq
+    sendfriendreq,
+    searchvalue,
+    getfriendreq,
+    rejectfriendreq,
+    acceptfriendreq,
+    openchangepassword,
+    postchangepassword
 }

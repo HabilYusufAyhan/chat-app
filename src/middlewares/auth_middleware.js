@@ -13,7 +13,7 @@ const oturumAcilmamis = function (req, res, next) {
         return next();
     }
     else {
-        res.redirect('/yonetim');
+        res.redirect('/chat');
     }
 }
 

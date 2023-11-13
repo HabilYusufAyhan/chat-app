@@ -73,6 +73,7 @@ const authRouter = require('./src/routers/auth_router');
 const User = require('./src/model/user_model');
 const { id } = require('./src/controllers/auth_controller');
 const Chat = require('./src/model/chat_model');
+const Room = require('./src/model/room_model');
 
 
 
@@ -102,14 +103,32 @@ const server = app.listen(process.env.PORT, async () => {
 const io = socket(server)
 
 io.on('connection', async (socket) => {
+    const userId = requestid;
+    socket.on('joinRoom', async () => {
+        let roomid
+        let user
+        let chatuser
+        if (userId.query.id) {
+            chatuser = await User.findOne({ _id: userId.query.id });
+            user = await User.findOne({ _id: userId.user.id })
+            roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
+            if (!roomid) {
+                roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+            }// Belirli bir odada soketi kullanıma al
+            if (roomid) {
+                socket.join(roomid.roomid);
+                console.log('giriş sağlandı' + roomid._id);
+            }
+        }
 
+
+    });
     //console.log(requestid);
 
-    console.log(socket.id);
 
     // Burada requestid'in nasıl tanımlandığını ve kullanılması gerektiğini kontrol edin.
     // Eğer requestid kullanıcı kimliğini içeriyorsa, doğru şekilde alın.
-    const userId = requestid; // Örnek olarak requestid, kullanıcı kimliği içeriyorsa.
+    // Örnek olarak requestid, kullanıcı kimliği içeriyorsa.
 
     if (userId) {
         try {
@@ -153,12 +172,18 @@ io.on('connection', async (socket) => {
         data.socket = chatuser.socketid
         data.usersocket = user.socketid
         data.me = false
+
+        let roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
+
+        if (!roomid) {
+            roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+        }
         //console.log(data, socket.id);
         //io.to(user.socketid).emit('chat', data2);
 
 
-
-        io.to(chatuser.socketid).emit('chat', data);
+        console.log(roomid.roomid);
+        io.to(roomid.roomid).emit('chat', data);
 
     });
     socket.on('typing', async data => {
@@ -171,8 +196,12 @@ io.on('connection', async (socket) => {
         //io.to(user.socketid).emit('chat', data2);
 
 
+        let roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
 
-        io.to(chatuser.socketid).emit('typing', data);
+        if (!roomid) {
+            roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+        }
+        io.to(roomid.roomid).emit('typing', data);
 
     })
 });

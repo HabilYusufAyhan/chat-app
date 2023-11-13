@@ -17,12 +17,25 @@
 
 <body>
     <div class="mainfriendpage">
+
         <div class="friendpage">
-            <input placeholder="Arkadaşınızın Emaili" type="text">
-            <div class="friend">
-                <p class="friendname">Lorem, ipsum dolor.</p>
-                <p class="friendemail">asdasdasd@gmail.com</p>
-                <button class="friendrequest">Arkadaşlık İsteği Gönder</button>
+            <i class="fa-solid fa-x"></i>
+            <input class="searchinput" placeholder="Arkadaşınızın Emaili" type="text">
+            <div class="friendwriting">
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="seefriend mainfriendpage">
+
+        <div class="friendpage">
+            <i class="friendcancel fa-solid fa-x"></i>
+
+            <div class="friendwriting2">
+
             </div>
         </div>
     </div>
@@ -41,10 +54,11 @@
                         <i class="dropdown fa-solid fa-list-ul"></i>
                         <div class="dropdownmenu">
                             <ul class="dropdownul">
-                                <li class="dropdownli"><a href="">Arkadaş Ekle</a></li>
-                                <li class="dropdownli"><a href="">Profilim</a></li>
+                                <li class="dropdownli"><a class="friendaddbutton" href="#">Arkadaş Ekle</a></li>
+                                <li class="dropdownli"><a href="#" class="seefriendreq">İstekler</a></li>
+                                <li class="dropdownli"><a href="/profile">Profilim</a></li>
                                 <li class="dropdownli"><a href="">Şifre Değiştir</a></li>
-                                <li class="dropdownli"><a style="color: red;" href="">Çıkış Yap</a></li>
+                                <li class="dropdownli"><a style="color: red;" href="/logout">Çıkış Yap</a></li>
                             </ul>
                         </div>
                     </div>

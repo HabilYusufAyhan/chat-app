@@ -23,11 +23,13 @@ router.get('/logout', authMiddleware.oturumAcilmis, authController.logout);
 
 
 router.get('/chat', authMiddleware.oturumAcilmis, authController.openchatpage)
+router.post('/search', authMiddleware.oturumAcilmis, authController.searchvalue)
+router.get('/getfriendreq', authMiddleware.oturumAcilmis, authController.getfriendreq)
+router.get('/sendfriendreq', authMiddleware.oturumAcilmis, authController.sendfriendreq)
+router.get('/friendreject', authMiddleware.oturumAcilmis, authController.rejectfriendreq)
+router.get('/acceptfriendreq', authMiddleware.oturumAcilmis, authController.acceptfriendreq)
 
-
-
-
-router.get('/friendreq', authMiddleware.oturumAcilmis, authController.sendfriendreq)
+router.get('/changepassword', authMiddleware.oturumAcilmis, authController.openchangepassword);
 
 
 module.exports = router;
