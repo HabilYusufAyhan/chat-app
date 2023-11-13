@@ -79,15 +79,17 @@ body {
 .friend {
   display: flex;
   border-radius: 40px;
-  padding-left: 5px;
+
   margin: 10px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   margin-top: 30px;
   background-color: orange;
   color: white;
   transition: 0.3s;
 }
+
+
 
 .friendrequest {
   transition: 0.3s;
@@ -96,6 +98,14 @@ body {
 .friendrequest:hover {
 
   transform: translateX(10px)
+}
+
+.cancelfriendreq {
+  margin-right: 5px;
+}
+
+.cancelfriendreq:hover {
+  transform: translateX(-10px)
 }
 
 .friendname {

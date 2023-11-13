@@ -13,6 +13,7 @@ const validateChangeUser = () => {
 }
 
 
+
 const validateNewUser = () => {
     return [
         body('email')

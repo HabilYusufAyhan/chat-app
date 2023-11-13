@@ -30,6 +30,7 @@ router.get('/friendreject', authMiddleware.oturumAcilmis, authController.rejectf
 router.get('/acceptfriendreq', authMiddleware.oturumAcilmis, authController.acceptfriendreq)
 
 router.get('/changepassword', authMiddleware.oturumAcilmis, authController.openchangepassword);
+router.post('/changepassword', authMiddleware.oturumAcilmis, validatorMiddleware.validateNewPassword(), authController.postchangepassword)
 
 
 module.exports = router;

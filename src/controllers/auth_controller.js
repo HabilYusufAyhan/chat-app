@@ -574,6 +574,36 @@ const openchangepassword = async function (req, res, next) {
 }
 const postchangepassword = async function (req, res, next) {
     const oldpass = req.body.oldsifre;
+    const hatalar = validationResult(req);
+
+    if (!hatalar.isEmpty()) {
+
+        req.flash('validation_error', hatalar.array());
+        req.flash('sifre', req.body.sifre);
+        req.flash('resifre', req.body.resifre);
+
+        console.log("formdan gelen değerler");
+        console.log(req.body);
+        //console.log(req.session);
+        res.redirect('/changepassword');
+
+    } else {
+        const user = await User.findOne({ _id: req.user.id });
+        const mevcutpass = await bcrypt.compare(oldpass, user.sifre);
+
+        if (!mevcutpass) {
+            req.flash('validation_error', { msg: 'Eski şifreniz yanlış' })
+            res.redirect('/changepassword')
+        } else {
+            let sifre = await bcrypt.hash(req.body.sifre, 10)
+            user.sifre = sifre;
+            user.save();
+            req.flash('success_message', { msg: 'Şifre başarıyla değiştirildi' })
+            res.redirect('/changepassword')
+        }
+    }
+
+
 
 }
 module.exports = {

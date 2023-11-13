@@ -26,7 +26,7 @@ seefriend.onclick = async function () {
             data.forEach(result => {
                 friendwriting2.innerHTML += `
                <div class="friend">
-               <a href="/friendreject?id=${result._id}"> <button class="friendrequest">Reddet</button></a>
+               <a href="/friendreject?id=${result._id}"> <button style= "border-radius: 24px 0px 0px 24px; margin-left:0;" class="friendrequest cancelfriendreq">Reddet</button></a>
                <p class="friendname">${result.ad} ${result.soyad}</p>
                <p class="friendemail">${result.email}</p>
                <a href="/acceptfriendreq?id=${result._id}"> <button class="friendrequest">Kabul Et</button></a>
