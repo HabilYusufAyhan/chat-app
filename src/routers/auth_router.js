@@ -33,4 +33,6 @@ router.get('/changepassword', authMiddleware.oturumAcilmis, authController.openc
 router.post('/changepassword', authMiddleware.oturumAcilmis, validatorMiddleware.validateNewPassword(), authController.postchangepassword)
 
 
+router.get('/removefriend', authMiddleware.oturumAcilmis, authController.removefriend)
+
 module.exports = router;

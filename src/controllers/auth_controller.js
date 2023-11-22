@@ -466,7 +466,11 @@ const postprofilepage = async function (req, res, next) {
 
 
 const openchatpage = async function (req, res, next) {
-
+    let user = await User.findOne({ _id: req.user.id });
+    if (req.query.id && !user.friends.includes(req.query.id)) {
+        console.log('arkadaşı değil');
+        res.redirect('/chat')
+    }
     var message = [];
     var searchid1 = req.user.id + req.query.id
     var searchid2 = req.query.id + req.user.id;
@@ -477,7 +481,7 @@ const openchatpage = async function (req, res, next) {
 
     let receiver
 
-    let user = await User.findOne({ _id: req.user.id });
+
     let friends = [];
     for (let index = 0; index < user.friends.length; index++) {
         friends[index] = await User.findOne({ _id: user.friends[index] })
@@ -606,6 +610,32 @@ const postchangepassword = async function (req, res, next) {
 
 
 }
+const removefriend = async function (req, res, next) {
+    let user = await User.findOne({ _id: req.user.id })
+
+    if (req.query.id) {
+
+        let friend = await User.findOne({ _id: req.query.id })
+        if (user.friends.includes(req.query.id)) {
+            user.friends.remove(req.query.id)
+            friend.friends.remove(req.user.id)
+            let room = await Room.findOne({ user1: req.user.id, user2: req.query.id })
+            if (!room) {
+                room = await Room.findOne({ user1: req.query.id, user2: req.user.id })
+            }
+            user.save();
+            friend.save();
+            room.remove();
+            res.redirect('/chat')
+        } else {
+            res.redirect('/chat')
+        }
+    }
+
+
+
+
+}
 module.exports = {
     loginFormunuGoster,
     registerFormunuGoster,
@@ -626,5 +656,6 @@ module.exports = {
     rejectfriendreq,
     acceptfriendreq,
     openchangepassword,
-    postchangepassword
+    postchangepassword,
+    removefriend
 }
