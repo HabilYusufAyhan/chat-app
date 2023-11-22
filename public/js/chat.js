@@ -129,17 +129,19 @@ const parametre1Deger = params.get('id');
 socket.emit('joinRoom');
 socket.on('chat', data => {
 
+    if (data.message != '') {
+        console.log(parametre1Deger);
+        if (data.sender == parametre1Deger) {
+            yazma.innerHTML = ''
+            mesajul.innerHTML += `
+            <div class="message received">
+            <div class="message-content"> ${data.message}</div>
+        </div>
+            `
 
-    console.log(parametre1Deger);
-    if (data.sender == parametre1Deger) {
-        yazma.innerHTML = ''
-        mesajul.innerHTML += `
-        <div class="message received">
-        <div class="message-content"> ${data.message}</div>
-    </div>
-        `
+            mesajul.scrollTo(0, mesajul.scrollHeight);
+        }
 
-        mesajul.scrollTo(0, mesajul.scrollHeight);
     }
 
 
@@ -229,10 +231,11 @@ if (button) {
 
 
 
-        socket.emit('chat', {
-            message: input.value
-        })
-        mesajul.innerHTML += `
+        if (input.value != '') {
+            socket.emit('chat', {
+                message: input.value
+            })
+            mesajul.innerHTML += `
         <div class="message sent">
         <div class="message-content">
             ${input.value}
@@ -242,8 +245,9 @@ if (button) {
 
 
 
-        mesajul.scrollTo(0, mesajul.scrollHeight);
-        input.value = ''
+            mesajul.scrollTo(0, mesajul.scrollHeight);
+            input.value = ''
+        }
 
     })
 }
