@@ -375,6 +375,11 @@ const yeniSifreFormuGoster = async (req, res, next) => {
     }
 }
 const openprofilepage = async function (req, res, next) {
+    if (req.query.id) {
+        if (req.query.id.length != 24) {
+            res.redirect('/profile')
+        }
+    }
     if (!req.query.id) {
         res.redirect('/profile?id=' + req.user.id)
 
@@ -466,9 +471,17 @@ const postprofilepage = async function (req, res, next) {
 
 
 const openchatpage = async function (req, res, next) {
+
     let user = await User.findOne({ _id: req.user.id });
+    console.log(req.query.id);
+
+    if (req.query.id) {
+        if (req.query.id.length != 24) {
+            res.redirect('/chat')
+        }
+    }
     if (req.query.id && !user.friends.includes(req.query.id)) {
-        console.log('arkadaşı değil');
+
         res.redirect('/chat')
     }
     var message = [];
@@ -494,7 +507,7 @@ const openchatpage = async function (req, res, next) {
     }
     let usesr = await User.findOne({ _id: req.user.id })
 
-    console.log('sasasa' + friends);
+
     res.render('chat.ejs', { req: req, user: usesr, title: 'Chat', receiver: receiver, alluser: friends, message: message });
 }
 

@@ -54,8 +54,12 @@
                         <i class="dropdown fa-solid fa-list-ul"></i>
                         <div class="dropdownmenu">
                             <ul class="dropdownul">
-                                <li class="dropdownli"><a class="friendaddbutton" href="#">Arkadaş Ekle</a></li>
-                                <li class="dropdownli"><a href="#" class="seefriendreq">İstekler</a></li>
+                                <li class="dropdownli">
+                                    <p class="friendaddbutton">Arkadaş Ekle</p>
+                                </li>
+                                <li class="dropdownli">
+                                    <p class="seefriendreq">İstekler</p>
+                                </li>
                                 <li class="dropdownli"><a href="/profile">Profilim</a></li>
                                 <li class="dropdownli"><a href="/changepassword">Şifre Değiştir</a></li>
                                 <li class="dropdownli"><a style="color: red;" href="/logout">Çıkış Yap</a></li>
@@ -63,9 +67,7 @@
                         </div>
                     </div>
                 </header>
-                <div class="searchbar">
-                    <input type="search" placeholder="Ara..." /><button>Ara</button>
-                </div>
+
             </div>
             <% alluser.forEach(element=> { %>
                 <a href="/chat?id=<%- element._id %>">
@@ -76,12 +78,12 @@
                         <div class="description">
                             <h3><%- element.ad %> <%- element.soyad %></h3>
 
-                            <% if (element.socketid !=null) { %>
-                                <span class="online">Online</span>
-                                <% } %>
-                                    <% if (element.socketid==null) { %>
-                                        <span class="offline">Offline</span>
-                                        <% } %>
+
+                            <% if (user.id===message[message.length-1].gonderen) { %>
+                                <span class="online"><%- message[message.length-1].mesaj %></span>
+                                <% } else { %>
+                                    <span class="offline"><%- message[message.length-1].mesaj %></span>
+                                    <% } %>
 
                         </div>
                     </div>
@@ -93,8 +95,10 @@
         <div class="chat">
             <% if (receiver) { %>
                 <header>
-                    <img class="profileimg" src="/uploads/avatars/<%- receiver.avatar %>" />
-                    <h2><%- receiver.ad %> <%- receiver.soyad %></h2>
+                    <div class="nameandpp">
+                        <img class="profileimg" src="/uploads/avatars/<%- receiver.avatar %>" />
+                        <h2><%- receiver.ad %> <%- receiver.soyad %></h2>
+                    </div>
                     <div class="settings">
                         <i class="userdropdown fa-solid fa-list-ul"></i>
                         <div class="dropdownmenu2">

@@ -9,7 +9,7 @@ const friendcancel = document.querySelector('.friendcancel')
 
 const friendwriting2 = document.querySelector('.friendwriting2')
 seefriend.onclick = async function () {
-
+    dropdownmenu.style.display = 'none'
     fetch('/getfriendreq', {
         method: 'GET',
         headers: {
@@ -62,6 +62,7 @@ const closebutton = document.querySelector('.fa-x')
 const searchInput = document.querySelector('.searchinput')
 friendaddbutton.onclick = function () {
     mainfriendpage.style.display = 'flex'
+    dropdownmenu.style.display = 'none'
 }
 closebutton.onclick = function () {
     mainfriendpage.style.display = 'none'
@@ -124,8 +125,17 @@ const queryString = currentURL.split('?')[1];
 const params = new URLSearchParams(queryString);
 
 // Belirli bir parametreyi al
-const parametre1Deger = params.get('id');
-
+let parametre1Deger = params.get('id');
+console.log(parametre1Deger);
+if (parametre1Deger) {
+    if (parametre1Deger.charAt(parametre1Deger.length - 1) == "#") {
+        parametre1Deger = parametre1Deger.slice(0, -1);
+    }
+    if (parametre1Deger.length != 24) {
+        window.location.href = 'http://localhost:3000/chat'
+    }
+}
+console.log(parametre1Deger);
 socket.emit('joinRoom');
 socket.on('chat', data => {
 
@@ -169,8 +179,13 @@ socket.on('typing', data => {
     const params = new URLSearchParams(queryString);
 
     // Belirli bir parametreyi al
-    const parametre1Deger = params.get('id');
-
+    let parametre1Deger = params.get('id');
+    if (parametre1Deger.charAt(parametre1Deger.length - 1) == "#") {
+        parametre1Deger = parametre1Deger.slice(0, -1);
+    }
+    if (parametre1Deger.length != 24) {
+        window.location.href = 'http://localhost:3000/chat'
+    }
     console.log(parametre1Deger);
     if (data.sender == parametre1Deger) {
 
@@ -197,30 +212,44 @@ socket.on('typing', data => {
 const dropdown = document.querySelector('.dropdown');
 const dropdownmenu = document.querySelector('.dropdownmenu');
 const body = document.querySelector('body')
-let sayac = 0;
+dropdownmenu.style.display = 'none'
+
+
+// Sayfa genelinde bir tıklama olayı dinle
+document.addEventListener('click', function (event) {
+    // Tıklanan noktanın dropdown icon veya dropdown menü içinde olup olmadığını kontrol et
+    if (!dropdownmenu.contains(event.target) && !dropdown.contains(event.target)) {
+        // Tıklanan nokta ne dropdown icon ne de dropdown menü içinde ise dropdown menüsünü gizle
+        dropdownmenu.style.display = 'none';
+    }
+    if (!dropdownmenu2.contains(event.target) && !userdropdown.contains(event.target)) {
+        // Tıklanan nokta ne dropdown icon ne de dropdown menü içinde ise dropdown menüsünü gizle
+        dropdownmenu2.style.display = 'none';
+    }
+});
 dropdown.onclick = function () {
-    if (sayac == 0) {
+    if (dropdownmenu.style.display == 'none') {
         dropdownmenu.style.display = 'inline-block'
-        sayac++;
+
     } else {
         dropdownmenu.style.display = 'none'
-        sayac--;
+
     }
 
 }
 
 const userdropdown = document.querySelector('.userdropdown')
 const dropdownmenu2 = document.querySelector('.dropdownmenu2');
-let sayac2 = 0;
+dropdownmenu2.style.display = 'none'
 if (userdropdown) {
     userdropdown.onclick = function () {
 
-        if (sayac2 == 0) {
+        if (dropdownmenu2.style.display == 'none') {
             dropdownmenu2.style.display = 'inline-block'
-            sayac2++;
+
         } else {
             dropdownmenu2.style.display = 'none'
-            sayac2--;
+
         }
     }
 }

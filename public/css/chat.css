@@ -196,7 +196,7 @@ body {
 }
 
 .header .owner {
-  margin-top: 16px;
+
   color: white;
 }
 
@@ -207,12 +207,19 @@ body {
   flex-direction: column;
 }
 
+.nameandpp {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
 .chat header {
   color: white;
   background-color: #4c4d50;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 80px;
 }
 
 .chat img {
@@ -337,9 +344,21 @@ button:hover {
 .dropdownli a {
   text-decoration: none;
   transition: 0.3s;
+  color: black;
+}
+
+.dropdownli p {
+  text-decoration: none;
+  transition: 0.3s;
+  color: black;
+  cursor: pointer;
 }
 
 .dropdownli a:hover {
+  color: #3444f1;
+}
+
+.dropdownli p:hover {
   color: #3444f1;
 }
 
