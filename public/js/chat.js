@@ -297,13 +297,31 @@ if (button) {
 
 
             mesajul.scrollTo(0, mesajul.scrollHeight);
+            /* const arkadaslar = document.querySelectorAll('.arkadaslar')
+                console.log(arkadaslar);
+              
+                const mainarkadaslar = document.querySelector('.mainarkadaslar')
+                for (let index = 0; index < arkadaslar.length; index++) {
+                    console.log('hoppa');
+            
+                    if (arkadaslar[index].attributes.href.value.substring(9) == data.sender && control.value == data.receiver) {
+                        mainarkadaslar.insertBefore(mainarkadaslar.children[index], mainarkadaslar.firstChild);
+            
+                        arkadaslar[index].firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.innerHTML = `
+                        <span class="offline">${data.message}</span>
+                        `
+                    }
+            
+                }*/
 
             const arkadaslar = document.querySelectorAll('.arkadaslar')
+            const mainarkadaslar = document.querySelector('.mainarkadaslar')
             console.log(arkadaslar);
             for (let index = 0; index < arkadaslar.length; index++) {
-                console.log('hoppa');
+
 
                 if (arkadaslar[index].attributes.href.value.substring(9) == parametre1Deger) {
+                    mainarkadaslar.insertBefore(mainarkadaslar.children[index], mainarkadaslar.firstChild);
                     arkadaslar[index].firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.innerHTML = `
                     <span class="online">${input.value}</span>
                     `

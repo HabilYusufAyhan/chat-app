@@ -169,25 +169,75 @@ io.on('connection', async (socket) => {
             const chatuser = await User.findOne({ _id: userId.query.id });
             const user = await User.findOne({ _id: userId.user.id })
 
+            let gecicidizi1 = chatuser.friends
+            let gecicidizi2 = user.friends
+            console.log(userId.user.id, userId.query.id, user.friends);
 
-            if (chatuser.friends.length >= 2) {
-                for (let index = 0; index < chatuser.friends.length; index++) {
-                    if (chatuser.friends[index] == userId.user.id) {
-                        chatuser.friends.unshift(chatuser.friends[index]);
+            if (gecicidizi2.length >= 2) {
+                for (let index = 0; index < gecicidizi2.length; index++) {
+
+                    if (String(gecicidizi2[index]) == String(userId.query.id)) {
+                        console.log('burada');
+                        let newArray = []
+                        newArray[0] = gecicidizi2[index]
+                        gecicidizi2.remove(gecicidizi2[index])
+                        newArray.push(gecicidizi2);
+                        gecicidizi2 = newArray;
+                        user.friends = gecicidizi2
+                        user.save()
+
                         break
+
+
+
                     }
 
                 }
+
             }
+            if (gecicidizi1.length >= 2) {
+                for (let index = 0; index < gecicidizi1.length; index++) {
+
+                    if (String(gecicidizi1[index]) == String(userId.user.id)) {
+                        console.log('burada');
+                        let newArray = []
+                        newArray[0] = gecicidizi1[index]
+                        gecicidizi1.remove(gecicidizi1[index])
+                        newArray.push(gecicidizi1);
+                        gecicidizi1 = newArray;
+                        chatuser.friends = gecicidizi1
+                        chatuser.save()
+
+                        break
+
+
+
+                    }
+
+                }
+
+            }
+            /*  if (chatuser.friends.length >= 2) {
+                  for (let index = 0; index < chatuser.friends.length; index++) {
+                      if (chatuser.friends[index] == userId.user.id) {
+                          chatuser.friends.unshift(chatuser.friends[index]);
+                          break
+                      }
+  
+                  }
+              }
             if (user.friends.length >= 2) {
                 for (let index = 0; index < user.friends.length; index++) {
                     if (user.friends[index] == userId.query.id) {
                         user.friends.unshift(user.friends[index]);
+                        chatuser.friends.unshift(chatuser.friends[index]);
+                        await chatuser.save();
+                        await user.save();
                         break
                     }
 
                 }
-            }
+            }*/
             /*const newMessage = new Chat({
                 mesaj: data.message,
                 id: chatuser._id + user._id,
@@ -199,7 +249,7 @@ io.on('connection', async (socket) => {
                 chats = await Chat.findOne({ kullanici2: userId.query.id, kullanici1: userId.user.id })
             }
             let pushmesaj = {}
-            chats.mesaj.push({ gonderen: user._id, alan: chatuser._id, mesaj: data.message })
+            chats.mesaj.push({ gonderen: user._id, alan: chatuser._id, mesaj: data.message, okundu: false })
             await chats.save();
 
             data.sender = user._id
@@ -221,8 +271,7 @@ io.on('connection', async (socket) => {
             console.log(roomid.roomid);
             io.to(roomid.roomid).emit('chat', data);
             io.to('as9865').emit('ongosterim', data)
-            chatuser.save();
-            user.save();
+
         }
     });
     socket.on('typing', async data => {
