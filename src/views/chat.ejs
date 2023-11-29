@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <input value="<%- user._id %>" class="control" type="hidden" name="">
     <div class="mainfriendpage">
 
         <div class="friendpage">
@@ -69,26 +70,35 @@
                 </header>
 
             </div>
-            <% alluser.forEach(element=> { %>
-                <a href="/chat?id=<%- element._id %>">
-                    <div class="user">
-                        <div class="image">
-                            <img src="/uploads/avatars/<%- element.avatar %>" />
+            <div class="mainarkadaslar">
+                <% alluser.forEach(element=> { %>
+                    <a class="arkadaslar" href="/chat?id=<%- element._id %>">
+                        <div class="user">
+                            <div class="image">
+                                <img src="/uploads/avatars/<%- element.avatar %>" />
+                            </div>
+                            <div class="description">
+                                <h3><%- element.ad %> <%- element.soyad %></h3>
+
+                                <% allfriendlastmessage.forEach(element2=> { %>
+                                    <% if (element2.kullanici1==element._id || element2.kullanici2==element._id) { %>
+                                        <% if (element2.mesaj[element2.mesaj.length-1].gonderen==user.id) { %>
+                                            <span class="online"><%- element2.mesaj[element2.mesaj.length-1].mesaj
+                                                    %></span>
+
+
+                                            <% } else { %>
+                                                <span class="offline"><%- element2.mesaj[element2.mesaj.length-1].mesaj
+                                                        %></span>
+                                                <%}%>
+                                                    <% } %>
+                                                        <% }) %>
+
+                            </div>
                         </div>
-                        <div class="description">
-                            <h3><%- element.ad %> <%- element.soyad %></h3>
-
-
-                            <% if (user.id===message[message.length-1].gonderen) { %>
-                                <span class="online"><%- message[message.length-1].mesaj %></span>
-                                <% } else { %>
-                                    <span class="offline"><%- message[message.length-1].mesaj %></span>
-                                    <% } %>
-
-                        </div>
-                    </div>
-                </a>
-                <% }) %>
+                    </a>
+                    <% }) %>
+            </div>
 
 
         </div>
@@ -113,22 +123,26 @@
 
                 <section>
                     <div class="chat-box">
-                        <% message.forEach(element=> { %>
-                            <% if (user.id===element.gonderen) { %>
-                                <div class="message sent">
-                                    <div class="message-content">
-                                        <%- element.mesaj %>
-                                    </div>
-                                </div>
-                                <% } else { %>
-                                    <div class="message received">
+                        <% if (message) { %>
+
+                            <% message.forEach(element=> { %>
+
+                                <% if (String(element.gonderen)==String(user._id) ) { %>
+                                    <div class="message sent">
                                         <div class="message-content">
                                             <%- element.mesaj %>
                                         </div>
                                     </div>
-                                    <% } %>
+                                    <% } else { %>
+                                        <div class="message received">
+                                            <div class="message-content">
+                                                <%- element.mesaj %>
+                                            </div>
+                                        </div>
+                                        <% } %>
 
-                                        <% }) %>
+                                            <% }) %>
+                                                <% } %>
 
                     </div>
                     <div class="yazma">

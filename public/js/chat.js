@@ -137,7 +137,27 @@ if (parametre1Deger) {
 }
 console.log(parametre1Deger);
 socket.emit('joinRoom');
-socket.on('chat', data => {
+socket.emit('mainroom')
+
+socket.on('ongosterim', data => {
+    const arkadaslar = document.querySelectorAll('.arkadaslar')
+    console.log(arkadaslar);
+    const control = document.querySelector('.control')
+    const mainarkadaslar = document.querySelector('.mainarkadaslar')
+    for (let index = 0; index < arkadaslar.length; index++) {
+        console.log('hoppa');
+
+        if (arkadaslar[index].attributes.href.value.substring(9) == data.sender && control.value == data.receiver) {
+            mainarkadaslar.insertBefore(mainarkadaslar.children[index], mainarkadaslar.firstChild);
+
+            arkadaslar[index].firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.innerHTML = `
+            <span class="offline">${data.message}</span>
+            `
+        }
+
+    }
+})
+socket.on('chat', async data => {
 
     if (data.message != '') {
         console.log(parametre1Deger);
@@ -150,7 +170,9 @@ socket.on('chat', data => {
             `
 
             mesajul.scrollTo(0, mesajul.scrollHeight);
+
         }
+
 
     }
 
@@ -275,6 +297,19 @@ if (button) {
 
 
             mesajul.scrollTo(0, mesajul.scrollHeight);
+
+            const arkadaslar = document.querySelectorAll('.arkadaslar')
+            console.log(arkadaslar);
+            for (let index = 0; index < arkadaslar.length; index++) {
+                console.log('hoppa');
+
+                if (arkadaslar[index].attributes.href.value.substring(9) == parametre1Deger) {
+                    arkadaslar[index].firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.innerHTML = `
+                    <span class="online">${input.value}</span>
+                    `
+                }
+
+            }
             input.value = ''
         }
 

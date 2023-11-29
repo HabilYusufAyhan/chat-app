@@ -2,15 +2,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const chatSchema = new Schema({
-    id: {
+
+    mesaj: {
+        type: Array,
+        trim: true,
+    },
+    kullanici1: {
         type: String,
         trim: true
     },
-    mesaj: {
-        type: String,
-        trim: true,
-    },
-    gonderen: {
+    kullanici2: {
         type: String,
         trim: true
     }

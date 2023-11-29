@@ -104,6 +104,7 @@ const io = socket(server)
 
 io.on('connection', async (socket) => {
     const userId = requestid;
+    socket.join('as9865')
     socket.on('joinRoom', async () => {
         let roomid
         let user
@@ -120,6 +121,12 @@ io.on('connection', async (socket) => {
                 console.log('giriş sağlandı' + roomid._id);
             }
         }
+
+
+    });
+    socket.on('mainroom', async () => {
+        console.log('mainroom a bağlandı');
+
 
 
     });
@@ -158,52 +165,87 @@ io.on('connection', async (socket) => {
         }
     });
     socket.on('chat', async data => {
-        const chatuser = await User.findOne({ _id: userId.query.id });
-        const user = await User.findOne({ _id: userId.user.id })
-        const newMessage = new Chat({
-            mesaj: data.message,
-            id: chatuser._id + user._id,
-            gonderen: user._id
-        })
-        await newMessage.save();
-        data.sender = user._id
-        data.receiver = chatuser._id
-        data.query = userId.query.id
-        data.socket = chatuser.socketid
-        data.usersocket = user.socketid
-        data.me = false
+        if (userId) {
+            const chatuser = await User.findOne({ _id: userId.query.id });
+            const user = await User.findOne({ _id: userId.user.id })
 
-        let roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
 
-        if (!roomid) {
-            roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+            if (chatuser.friends.length >= 2) {
+                for (let index = 0; index < chatuser.friends.length; index++) {
+                    if (chatuser.friends[index] == userId.user.id) {
+                        chatuser.friends.unshift(chatuser.friends[index]);
+                        break
+                    }
+
+                }
+            }
+            if (user.friends.length >= 2) {
+                for (let index = 0; index < user.friends.length; index++) {
+                    if (user.friends[index] == userId.query.id) {
+                        user.friends.unshift(user.friends[index]);
+                        break
+                    }
+
+                }
+            }
+            /*const newMessage = new Chat({
+                mesaj: data.message,
+                id: chatuser._id + user._id,
+                gonderen: user._id,
+                alan: chatuser._id
+            })*/
+            let chats = await Chat.findOne({ kullanici1: userId.query.id, kullanici2: userId.user.id })
+            if (!chats) {
+                chats = await Chat.findOne({ kullanici2: userId.query.id, kullanici1: userId.user.id })
+            }
+            let pushmesaj = {}
+            chats.mesaj.push({ gonderen: user._id, alan: chatuser._id, mesaj: data.message })
+            await chats.save();
+
+            data.sender = user._id
+            data.receiver = chatuser._id
+            data.query = userId.query.id
+            data.socket = chatuser.socketid
+            data.usersocket = user.socketid
+            data.me = false
+
+            let roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
+
+            if (!roomid) {
+                roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+            }
+            //console.log(data, socket.id);
+            //io.to(user.socketid).emit('chat', data2);
+
+
+            console.log(roomid.roomid);
+            io.to(roomid.roomid).emit('chat', data);
+            io.to('as9865').emit('ongosterim', data)
+            chatuser.save();
+            user.save();
         }
-        //console.log(data, socket.id);
-        //io.to(user.socketid).emit('chat', data2);
-
-
-        console.log(roomid.roomid);
-        io.to(roomid.roomid).emit('chat', data);
-
     });
     socket.on('typing', async data => {
-        const chatuser = await User.findOne({ _id: userId.query.id });
-        const user = await User.findOne({ _id: userId.user.id })
-        data.sender = user._id
+        if (userId) {
+            const chatuser = await User.findOne({ _id: userId.query.id });
+            const user = await User.findOne({ _id: userId.user.id })
+            data.sender = user._id
 
 
-        //console.log(data, socket.id);
-        //io.to(user.socketid).emit('chat', data2);
+            //console.log(data, socket.id);
+            //io.to(user.socketid).emit('chat', data2);
 
 
-        let roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
+            let roomid = await Room.findOne({ user1: user._id, user2: chatuser._id })
 
-        if (!roomid) {
-            roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+            if (!roomid) {
+                roomid = await Room.findOne({ user2: user._id, user1: chatuser._id })
+            }
+            io.to(roomid.roomid).emit('typing', data);
         }
-        io.to(roomid.roomid).emit('typing', data);
 
     })
+
 });
 
 
