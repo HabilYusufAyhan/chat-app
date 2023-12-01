@@ -117,7 +117,9 @@ const register = async (req, res, next) => {
 
                 await transporter.sendMail({
 
-                    from: 'Nodejs Uygulaması <info@nodejskursu.com',
+
+
+                    from: 'Guvercin <info@guvercin.com',
                     to: newUser.email,
                     subject: "Emailiniz Lütfen Onaylayın",
                     text: "Emailinizi onaylamak için lütfen şu linki tıklayın: " + " " + url
