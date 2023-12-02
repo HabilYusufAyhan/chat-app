@@ -489,18 +489,13 @@ const openchatpage = async function (req, res, next) {
         } else {
 
 
-            try {
-                var message;
-                let allfriendlastmessage = await Chat.find({ kullanici1: req.user.id });
+            var message;
+            let allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
 
-                let allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id });
-                let mainallfriendlastmessage = [];
-                mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2);
-                console.log(mainallfriendlastmessage);
-            } catch (error) {
-                console.error("Bir hata oluştu haberin olsun:", error);
-                // Hata durumunda gerekli işlemleri ekleyebilirsiniz.
-            }
+            let allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
+            let mainallfriendlastmessage = [];
+            mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
+            console.log(mainallfriendlastmessage);
             /*  var datamessage1 = await Chat.find({ id: searchid1 })
               var datamessage2 = await Chat.find({ id: searchid2 })
               message = message.concat(datamessage1, datamessage2);
