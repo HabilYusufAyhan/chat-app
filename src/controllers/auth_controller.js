@@ -489,19 +489,23 @@ const openchatpage = async function (req, res, next) {
         } else {
 
 
-            var message;
-            let allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
 
-            let allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
-            let mainallfriendlastmessage = [];
-            mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
-            console.log('bu mainallfriend he' + mainallfriendlastmessage);
             /*  var datamessage1 = await Chat.find({ id: searchid1 })
               var datamessage2 = await Chat.find({ id: searchid2 })
               message = message.concat(datamessage1, datamessage2);
               message.sort((a, b) => a.createdAt - b.createdAt);*/
-
+            var message;
+            let allfriendlastmessage
+            let allfriendlastmessage2
+            let mainallfriendlastmessage
             if (req.query.id) {
+
+                allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
+
+                allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
+                mainallfriendlastmessage = [];
+                mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
+                console.log('bu mainallfriend he' + mainallfriendlastmessage);
                 message = await Chat.findOne({ kullanici1: req.user.id, kullanici2: req.query.id })
                 if (!message) {
                     message = await Chat.findOne({ kullanici2: req.user.id, kullanici1: req.query.id })
