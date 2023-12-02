@@ -495,7 +495,7 @@ const openchatpage = async function (req, res, next) {
             let allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
             let mainallfriendlastmessage = [];
             mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
-            console.log(mainallfriendlastmessage);
+            console.log('bu mainallfriend he' + mainallfriendlastmessage);
             /*  var datamessage1 = await Chat.find({ id: searchid1 })
               var datamessage2 = await Chat.find({ id: searchid2 })
               message = message.concat(datamessage1, datamessage2);
