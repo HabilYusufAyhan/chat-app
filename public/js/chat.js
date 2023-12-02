@@ -1,4 +1,4 @@
-let url = 'https://chatapp-5wx4.onrender.com/login/' //'https://chatapp-5wx4.onrender.com'
+let url = 'https://chatapp-5wx4.onrender.com/' //'https://chatapp-5wx4.onrender.com'
 let testurl = 'http://localhost:3000'
 const mesajul = document.querySelector('.chat-box')
 const input = document.querySelector('.mesaj')
