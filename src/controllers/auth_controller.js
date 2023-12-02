@@ -473,73 +473,77 @@ const postprofilepage = async function (req, res, next) {
 
 
 const openchatpage = async function (req, res, next) {
+    try {
 
-    let user = await User.findOne({ _id: req.user.id });
-    console.log(req.query.id);
-
-    if (req.query.id) {
-        if (req.query.id.length != 24) {
-            res.redirect('/chat')
-        }
-    }
-    if (req.query.id && !user.friends.includes(req.query.id)) {
-
-        res.redirect('/chat')
-    } else {
-
-
-        var message;
-        let allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
-
-        let allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
-        let mainallfriendlastmessage = [];
-        mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
-        console.log(mainallfriendlastmessage);
-        /*  var datamessage1 = await Chat.find({ id: searchid1 })
-          var datamessage2 = await Chat.find({ id: searchid2 })
-          message = message.concat(datamessage1, datamessage2);
-          message.sort((a, b) => a.createdAt - b.createdAt);*/
+        let user = await User.findOne({ _id: req.user.id });
+        console.log(req.query.id);
 
         if (req.query.id) {
-            message = await Chat.findOne({ kullanici1: req.user.id, kullanici2: req.query.id })
-            if (!message) {
-                message = await Chat.findOne({ kullanici2: req.user.id, kullanici1: req.query.id })
+            if (req.query.id.length != 24) {
+                res.redirect('/chat')
             }
+        }
+        if (req.query.id && !user.friends.includes(req.query.id)) {
+
+            res.redirect('/chat')
         } else {
-            message = { mesaj: [{ gonderen: null }] }
+
+
+            var message;
+            let allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
+
+            let allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
+            let mainallfriendlastmessage = [];
+            mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
+            console.log(mainallfriendlastmessage);
+            /*  var datamessage1 = await Chat.find({ id: searchid1 })
+              var datamessage2 = await Chat.find({ id: searchid2 })
+              message = message.concat(datamessage1, datamessage2);
+              message.sort((a, b) => a.createdAt - b.createdAt);*/
+
+            if (req.query.id) {
+                message = await Chat.findOne({ kullanici1: req.user.id, kullanici2: req.query.id })
+                if (!message) {
+                    message = await Chat.findOne({ kullanici2: req.user.id, kullanici1: req.query.id })
+                }
+            } else {
+                message = { mesaj: [{ gonderen: null }] }
+            }
+
+
+
+            if (mainallfriendlastmessage.mesaj = []) {
+                mainallfriendlastmessage.mesaj = []
+            }
+            let receiver
+
+
+            let friends = [];
+            for (let index = 0; index < user.friends.length; index++) {
+                friends[index] = await User.findOne({ _id: user.friends[index] })
+
+            }
+
+            if (req.query.id) {
+                //bu kullanıcı ile arkadaş mı onun kontrolü yapılacak
+                receiver = await User.findOne({ _id: req.query.id })
+            }
+
+            let usesr = await User.findOne({ _id: req.user.id })
+            /*  message.mesaj.forEach(element => {
+                  console.log(element.gonderen);
+                  console.log(String(element.gonderen));
+                  if (String(element.gonderen) == String(usesr._id)) {
+                      console.log('true');
+                  }
+              });*/
+
+            //let messagesee = await Chat.findOne({ gonderen: req.user.id } || { alan: req.user.id })
+            console.log(mainallfriendlastmessage);
+            res.render('chat.ejs', { user: usesr, title: 'Chat', receiver: receiver, alluser: friends, message: message.mesaj, allfriendlastmessage: mainallfriendlastmessage });
         }
-
-
-
-        if (mainallfriendlastmessage.mesaj = []) {
-            mainallfriendlastmessage.mesaj = []
-        }
-        let receiver
-
-
-        let friends = [];
-        for (let index = 0; index < user.friends.length; index++) {
-            friends[index] = await User.findOne({ _id: user.friends[index] })
-
-        }
-
-        if (req.query.id) {
-            //bu kullanıcı ile arkadaş mı onun kontrolü yapılacak
-            receiver = await User.findOne({ _id: req.query.id })
-        }
-
-        let usesr = await User.findOne({ _id: req.user.id })
-        /*  message.mesaj.forEach(element => {
-              console.log(element.gonderen);
-              console.log(String(element.gonderen));
-              if (String(element.gonderen) == String(usesr._id)) {
-                  console.log('true');
-              }
-          });*/
-
-        //let messagesee = await Chat.findOne({ gonderen: req.user.id } || { alan: req.user.id })
-        console.log(mainallfriendlastmessage);
-        res.render('chat.ejs', { user: usesr, title: 'Chat', receiver: receiver, alluser: friends, message: message.mesaj, allfriendlastmessage: mainallfriendlastmessage });
+    } catch (error) {
+        console.log('hata kodu: ' + error);
     }
 }
 
