@@ -1,8 +1,10 @@
+let url = process.env.WEB_SITE_URL //'https://chatapp-5wx4.onrender.com'
+let testurl = 'http://localhost:3000'
 const mesajul = document.querySelector('.chat-box')
 const input = document.querySelector('.mesaj')
 const button = document.querySelector('.gonder');
 const yazma = document.querySelector('.yazma')
-const socket = io.connect('http://localhost:3000')
+const socket = io.connect(url)
 const seefriend = document.querySelector('.seefriendreq');
 const seefrienddiv = document.querySelector('.seefriend')
 const friendcancel = document.querySelector('.friendcancel')
@@ -132,7 +134,7 @@ if (parametre1Deger) {
         parametre1Deger = parametre1Deger.slice(0, -1);
     }
     if (parametre1Deger.length != 24) {
-        window.location.href = 'http://localhost:3000/chat'
+        window.location.href = url + 'chat'
     }
 }
 console.log(parametre1Deger);
@@ -206,7 +208,7 @@ socket.on('typing', data => {
         parametre1Deger = parametre1Deger.slice(0, -1);
     }
     if (parametre1Deger.length != 24) {
-        window.location.href = 'http://localhost:3000/chat'
+        window.location.href = url + 'chat'
     }
     console.log(parametre1Deger);
     if (data.sender == parametre1Deger) {
