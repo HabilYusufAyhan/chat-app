@@ -428,7 +428,7 @@ const postprofilepage = async function (req, res, next) {
 
             // Base64 veriyi çıkar
             const base64Data = fileData.replace(/^data:image\/jpeg;base64,/, '');
-
+            console.log(base64Data);
             // Dosyayı sunucuya kaydet
             fs.writeFile('./src/uploads/avatars/' + req.user.email + '.jpg', base64Data, 'base64', (err) => {
                 if (err) throw err;
