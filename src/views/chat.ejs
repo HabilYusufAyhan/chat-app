@@ -79,21 +79,25 @@
                             </div>
                             <div class="description">
                                 <h3><%- element.ad %> <%- element.soyad %></h3>
+                                <% if (allfriendlastmessage !=undefined) { %>
+                                    <% allfriendlastmessage.forEach(element2=> { %>
+                                        <% if (element2.kullanici1==element._id || element2.kullanici2==element._id) {
+                                            %>
+                                            <% if (element2.mesaj[element2.mesaj.length-1].gonderen==user.id) { %>
+                                                <span class="online"><%- element2.mesaj[element2.mesaj.length-1].mesaj
+                                                        %>
 
-                                <% allfriendlastmessage.forEach(element2=> { %>
-                                    <% if (element2.kullanici1==element._id || element2.kullanici2==element._id) { %>
-                                        <% if (element2.mesaj[element2.mesaj.length-1].gonderen==user.id) { %>
-                                            <span class="online"><%- element2.mesaj[element2.mesaj.length-1].mesaj %>
-
-                                            </span>
+                                                </span>
 
 
-                                            <% } else { %>
-                                                <span class="offline"><%- element2.mesaj[element2.mesaj.length-1].mesaj
-                                                        %></span>
-                                                <%}%>
-                                                    <% } %>
-                                                        <% }) %>
+                                                <% } else { %>
+                                                    <span class="offline"><%-
+                                                            element2.mesaj[element2.mesaj.length-1].mesaj %></span>
+                                                    <%}%>
+                                                        <% } %>
+                                                            <% }) %>
+                                                                <% } %>
+
 
                             </div>
 

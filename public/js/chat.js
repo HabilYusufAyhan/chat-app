@@ -1,4 +1,6 @@
-let url = 'https://chatapp-5wx4.onrender.com/' //'https://chatapp-5wx4.onrender.com'
+//çözmen gerek : arkadaşlarından biriyle mesajı yoksa diğer arkadaşıylada mesajı olmuyor onu düzelt
+
+let url = 'http://localhost:3000' //'https://chatapp-5wx4.onrender.com'
 let testurl = 'http://localhost:3000'
 const mesajul = document.querySelector('.chat-box')
 const input = document.querySelector('.mesaj')
