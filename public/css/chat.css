@@ -13,10 +13,14 @@
 .app {
   display: flex;
   flex-direction: row;
+  height: 100%;
 }
 
 body {
   overflow: hidden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
 .sidebar {
@@ -140,10 +144,20 @@ body {
 
 .user .online {
   color: rgb(36, 199, 36);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 140px;
+  display: block;
 }
 
 .user .offline {
   color: rgb(228, 47, 47);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 140px;
+  display: block;
 }
 
 .chat-box {
@@ -398,4 +412,54 @@ button:hover {
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
   /* Kaydırma çubuğu arka plan rengi */
+}
+
+
+/*responsive*/
+.owner h4 {
+  max-width: 100px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.header-img img {
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar {
+  min-width: 270px;
+}
+
+.fa-arrow-left {
+  display: none;
+}
+
+.fa-arrow-right {
+  display: none;
+}
+
+@media (max-width:768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .fa-arrow-right {
+    display: inline-block;
+  }
+}
+
+@media (min-width:768px) {
+  .sidebar {
+    display: block;
+  }
+
+  .fa-arrow-right {
+    display: none;
+  }
+
+  .fa-arrow-left {
+    display: none;
+  }
 }

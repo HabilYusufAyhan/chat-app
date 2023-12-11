@@ -7,6 +7,7 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const Chat = require('../model/chat_model');
 const Room = require('../model/room_model');
+const Okundu = require('../model/okundu_model');
 
 const loginFormunuGoster = (req, res, next) => {
     res.render('login', { layout: './layout/auth_layout.ejs', title: 'Giriş Yap' });
@@ -482,6 +483,18 @@ const openchatpage = async function (req, res, next) {
         if (req.query.id.length != 24) {
             res.redirect('/chat')
         }
+
+        let okundubilgisi = await Okundu.findOne({ user1: req.query.id })
+        if (!okundubilgisi) {
+            okundubilgisi = await Okundu.findOne({ user2: req.query.id })
+        }
+
+
+        if (okundubilgisi) {
+            okundubilgisi.Okundu = false
+            okundubilgisi.save();
+        }
+
     }
     if (req.query.id && !user.friends.includes(req.query.id)) {
 
@@ -497,20 +510,22 @@ const openchatpage = async function (req, res, next) {
         var message;
         let allfriendlastmessage
         let allfriendlastmessage2
-        let mainallfriendlastmessage
+        let mainallfriendlastmessage = [];
+
+
+        allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
+
+        allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
+
+        mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
+        console.log('bu mainallfriend he' + mainallfriendlastmessage);
         if (req.query.id) {
-
-            allfriendlastmessage = await Chat.find({ kullanici1: req.user.id })
-
-            allfriendlastmessage2 = await Chat.find({ kullanici2: req.user.id })
-            mainallfriendlastmessage = [];
-            mainallfriendlastmessage = mainallfriendlastmessage.concat(allfriendlastmessage, allfriendlastmessage2)
-            console.log('bu mainallfriend he' + mainallfriendlastmessage);
             message = await Chat.findOne({ kullanici1: req.user.id, kullanici2: req.query.id })
             if (!message) {
                 message = await Chat.findOne({ kullanici2: req.user.id, kullanici1: req.query.id })
             }
         } else {
+
             console.log('burada');
             message = { mesaj: [{ gonderen: null }] }
         }
@@ -533,7 +548,9 @@ const openchatpage = async function (req, res, next) {
             //bu kullanıcı ile arkadaş mı onun kontrolü yapılacak
             receiver = await User.findOne({ _id: req.query.id })
         }
+        else {
 
+        }
         let usesr = await User.findOne({ _id: req.user.id })
         /*  message.mesaj.forEach(element => {
               console.log(element.gonderen);
@@ -544,8 +561,12 @@ const openchatpage = async function (req, res, next) {
           });*/
 
         //let messagesee = await Chat.findOne({ gonderen: req.user.id } || { alan: req.user.id })
+
+
+        let okundubilgisi = await Okundu.find({ user1: { $in: [req.query.id, req.user.id] }, user2: { $in: [req.query.id, req.user.id] } })
+
         console.log(mainallfriendlastmessage);
-        res.render('chat.ejs', { user: usesr, title: 'Chat', receiver: receiver, alluser: friends, message: message.mesaj, allfriendlastmessage: mainallfriendlastmessage });
+        res.render('chat.ejs', { user: usesr, title: 'Chat', receiver: receiver, alluser: friends, message: message.mesaj, allfriendlastmessage: mainallfriendlastmessage, okundu: okundubilgisi, kontrolid: req.query.id });
     }
 
 }
@@ -573,6 +594,11 @@ const acceptfriendreq = async function (req, res, next) {
             user2: req.query.id,
             roomid: roomsize.length
         })
+        const newOkundu = new Okundu({
+            user1: req.user.id,
+            user2: req.query.id,
+
+        })
         const newChat = new Chat({
             mesaj: [{ gonderen: null, alan: null, mesaj: null }],
             kullanici1: req.user.id,
@@ -580,6 +606,7 @@ const acceptfriendreq = async function (req, res, next) {
         })
         await newChat.save();
         await newRoom.save();
+        await newOkundu.save();
         let requser = await User.findOne({ _id: req.query.id })
         let mainuser = await User.findOne({ _id: req.user.id })
         if (requser) {

@@ -44,6 +44,7 @@
 
         <div class="sidebar">
             <div class="mainheader">
+
                 <header class="header">
                     <div class="header-img">
                         <img src="/uploads/avatars/<%- user.avatar %>" />
@@ -79,31 +80,36 @@
                             </div>
                             <div class="description">
                                 <h3><%- element.ad %> <%- element.soyad %></h3>
-                                <% if (allfriendlastmessage !=undefined) { %>
-                                    <% allfriendlastmessage.forEach(element2=> { %>
-                                        <% if (element2.kullanici1==element._id || element2.kullanici2==element._id) {
-                                            %>
-                                            <% if (element2.mesaj[element2.mesaj.length-1].gonderen==user.id) { %>
-                                                <span class="online"><%- element2.mesaj[element2.mesaj.length-1].mesaj
-                                                        %>
 
-                                                </span>
+                                <% allfriendlastmessage.forEach(element2=> { %>
+                                    <% if (element2.kullanici1==element._id || element2.kullanici2==element._id) { %>
+                                        <% if (element2.mesaj[element2.mesaj.length-1].gonderen==user.id) { %>
+                                            <span class="online"><%- element2.mesaj[element2.mesaj.length-1].mesaj %>
+
+                                            </span>
 
 
-                                                <% } else { %>
-                                                    <span class="offline"><%-
-                                                            element2.mesaj[element2.mesaj.length-1].mesaj %></span>
-                                                    <%}%>
-                                                        <% } %>
-                                                            <% }) %>
-                                                                <% } %>
+                                            <% } else { %>
+                                                <span class="offline"><%- element2.mesaj[element2.mesaj.length-1].mesaj
+                                                        %></span>
+                                                <%}%>
+                                                    <% } %>
+                                                        <% }) %>
+
 
 
                             </div>
 
 
                         </div>
-                        <i class="fa-solid fa-circle"></i>
+                        <% for( let index=0; index < okundu.length; index++ ) { %>
+                            <% if (okundu[index].user1==element._id || okundu[index].user2==element._id) { %>
+                                <% if (okundu[index].Okundu==true && element._id !=kontrolid) { %>
+                                    <i class="fa-solid fa-circle"></i>
+                                    <% } %>
+                                        <% } %>
+                                            <% } %>
+
                     </a>
                     <% }) %>
             </div>
@@ -113,7 +119,14 @@
         <div class="chat">
             <% if (receiver) { %>
                 <header>
+
                     <div class="nameandpp">
+                        <i class="fa-solid fa-arrow-left" style="    margin-left: 20px;
+                font-size: 25px;
+                cursor: pointer;"></i>
+                        <i class="fa-solid fa-arrow-right" style="    margin-left: 20px;
+                     font-size: 25px;
+                     cursor: pointer;"></i>
                         <img class="profileimg" src="/uploads/avatars/<%- receiver.avatar %>" />
                         <h2><%- receiver.ad %> <%- receiver.soyad %></h2>
                     </div>
@@ -121,48 +134,65 @@
                         <i class="userdropdown fa-solid fa-list-ul"></i>
                         <div class="dropdownmenu2">
                             <ul class="dropdownul">
-                                <li class="dropdownli"><a href="/profile?id=<%- receiver._id %>">Profiline Git</a></li>
+                                <li class="dropdownli"><a href="/profile?id=<%- receiver._id %>">Profiline
+                                        Git</a></li>
                                 <li class="dropdownli"><a style="color: red;"
                                         href="/removefriend?id=<%- receiver._id %>">Arkadaşlıktan Çıkar</a></li>
                             </ul>
                         </div>
                     </div>
                 </header>
+                <% }else { %>
 
-                <section>
-                    <div class="chat-box">
-                        <% if (message) { %>
+                    <header>
 
-                            <% message.forEach(element=> { %>
+                        <div class="nameandpp">
+                            <i class="fa-solid fa-arrow-left" style="    margin-left: 20px;
+                            font-size: 25px;
+                            cursor: pointer;"></i>
+                            <i class="fa-solid fa-arrow-right" style="    margin-left: 20px;
+                                 font-size: 25px;
+                                 cursor: pointer;"></i>
+                        </div>
 
-                                <% if (String(element.gonderen)==String(user._id) ) { %>
-                                    <div class="message sent">
-                                        <div class="message-content">
-                                            <%- element.mesaj %>
-                                        </div>
-                                    </div>
-                                    <% } else { %>
-                                        <div class="message received">
-                                            <div class="message-content">
-                                                <%- element.mesaj %>
-                                            </div>
-                                        </div>
-                                        <% } %>
+                    </header>
+                    <%}%>
+                        <% if (receiver) { %>
+                            <section>
+                                <div class="chat-box">
+                                    <% if (message) { %>
 
-                                            <% }) %>
-                                                <% } %>
+                                        <% message.forEach(element=> { %>
 
-                    </div>
-                    <div class="yazma">
-                        <span style="color: white; opacity: 0; margin-left: 20px;" class="writing">Yazıyor...</span>
-                    </div>
-                </section>
+                                            <% if (String(element.gonderen)==String(user._id) ) { %>
+                                                <div class="message sent">
+                                                    <div class="message-content">
+                                                        <%- element.mesaj %>
+                                                    </div>
+                                                </div>
+                                                <% } else { %>
+                                                    <div class="message received">
+                                                        <div class="message-content">
+                                                            <%- element.mesaj %>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
 
-                <div class="input-container">
-                    <input type="text" class="mesaj" id="message-input" placeholder="Mesajınızı girin" />
-                    <button class="gonder">Gönder</button>
-                </div>
-                <% } %>
+                                                        <% }) %>
+                                                            <% } %>
+
+                                </div>
+                                <div class="yazma">
+                                    <span style="color: white; opacity: 0; margin-left: 20px;"
+                                        class="writing">Yazıyor...</span>
+                                </div>
+                            </section>
+
+                            <div class="input-container">
+                                <input type="text" class="mesaj" id="message-input" placeholder="Mesajınızı girin" />
+                                <button class="gonder">Gönder</button>
+                            </div>
+                            <% } %>
         </div>
     </div>
     <script src="/js/chat.js">

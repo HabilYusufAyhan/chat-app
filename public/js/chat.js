@@ -142,12 +142,13 @@ if (parametre1Deger) {
 console.log(parametre1Deger);
 socket.emit('joinRoom');
 socket.emit('mainroom')
-
+let sayac = 0;
 socket.on('ongosterim', data => {
     const arkadaslar = document.querySelectorAll('.arkadaslar')
     console.log(arkadaslar);
     const control = document.querySelector('.control')
     const mainarkadaslar = document.querySelector('.mainarkadaslar')
+
     for (let index = 0; index < arkadaslar.length; index++) {
         console.log('hoppa');
 
@@ -157,6 +158,13 @@ socket.on('ongosterim', data => {
             arkadaslar[index].firstElementChild.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.innerHTML = `
             <span class="offline">${data.message}</span>
             `
+
+
+            if (sayac == 0 && parametre1Deger != data.sender) {
+                arkadaslar[index].innerHTML += '  <i class="fa-solid fa-circle"></i>'
+                sayac++;
+            }
+
         }
 
     }
@@ -239,34 +247,39 @@ const dropdown = document.querySelector('.dropdown');
 const dropdownmenu = document.querySelector('.dropdownmenu');
 const body = document.querySelector('body')
 dropdownmenu.style.display = 'none'
-
+const dropdownmenu2 = document.querySelector('.dropdownmenu2');
 
 // Sayfa genelinde bir tıklama olayı dinle
-document.addEventListener('click', function (event) {
-    // Tıklanan noktanın dropdown icon veya dropdown menü içinde olup olmadığını kontrol et
-    if (!dropdownmenu.contains(event.target) && !dropdown.contains(event.target)) {
-        // Tıklanan nokta ne dropdown icon ne de dropdown menü içinde ise dropdown menüsünü gizle
-        dropdownmenu.style.display = 'none';
-    }
-    if (!dropdownmenu2.contains(event.target) && !userdropdown.contains(event.target)) {
-        // Tıklanan nokta ne dropdown icon ne de dropdown menü içinde ise dropdown menüsünü gizle
-        dropdownmenu2.style.display = 'none';
-    }
-});
-dropdown.onclick = function () {
-    if (dropdownmenu.style.display == 'none') {
-        dropdownmenu.style.display = 'inline-block'
+if (dropdownmenu2) {
+    document.addEventListener('click', function (event) {
+        // Tıklanan noktanın dropdown icon veya dropdown menü içinde olup olmadığını kontrol et
+        if (!dropdownmenu.contains(event.target) && !dropdown.contains(event.target)) {
+            // Tıklanan nokta ne dropdown icon ne de dropdown menü içinde ise dropdown menüsünü gizle
+            dropdownmenu.style.display = 'none';
+        }
+        if (!dropdownmenu2.contains(event.target) && !userdropdown.contains(event.target)) {
+            // Tıklanan nokta ne dropdown icon ne de dropdown menü içinde ise dropdown menüsünü gizle
+            dropdownmenu2.style.display = 'none';
+        }
+    });
+    dropdownmenu2.style.display = 'none'
+}
+if (dropdown) {
+    dropdown.onclick = function () {
+        if (dropdownmenu.style.display == 'none') {
+            dropdownmenu.style.display = 'inline-block'
 
-    } else {
-        dropdownmenu.style.display = 'none'
+        } else {
+            dropdownmenu.style.display = 'none'
+
+        }
 
     }
-
 }
 
 const userdropdown = document.querySelector('.userdropdown')
-const dropdownmenu2 = document.querySelector('.dropdownmenu2');
-dropdownmenu2.style.display = 'none'
+
+
 if (userdropdown) {
     userdropdown.onclick = function () {
 
@@ -336,4 +349,25 @@ if (button) {
         }
 
     })
+}
+
+
+
+
+
+/*responsive js*/
+
+const arrowleft = document.querySelector('.fa-arrow-left')
+const arrowright = document.querySelector('.fa-arrow-right')
+const sidebar = document.querySelector('.sidebar')
+
+arrowleft.onclick = function () {
+    arrowleft.style.display = 'none'
+    arrowright.style.display = 'inline-block'
+    sidebar.style.display = 'none'
+}
+arrowright.onclick = function () {
+    arrowright.style.display = 'none'
+    arrowleft.style.display = 'inline-block'
+    sidebar.style.display = 'block'
 }

@@ -74,6 +74,7 @@ const User = require('./src/model/user_model');
 const { id } = require('./src/controllers/auth_controller');
 const Chat = require('./src/model/chat_model');
 const Room = require('./src/model/room_model');
+const Okundu = require('./src/model/okundu_model');
 
 
 
@@ -172,50 +173,38 @@ io.on('connection', async (socket) => {
             let gecicidizi1 = chatuser.friends
             let gecicidizi2 = user.friends
             console.log(userId.user.id, userId.query.id, user.friends);
-
+            let gecicidiziyeni1 = []
+            let gecicidiziyeni2 = []
             if (gecicidizi2.length >= 2) {
+                gecicidiziyeni2[0] = String(userId.query.id)
                 for (let index = 0; index < gecicidizi2.length; index++) {
 
-                    if (String(gecicidizi2[index]) == String(userId.query.id)) {
-                        console.log('burada');
-                        let newArray = []
-                        newArray[0] = gecicidizi2[index]
-                        gecicidizi2.remove(gecicidizi2[index])
-                        newArray.push(gecicidizi2);
-                        gecicidizi2 = newArray;
-                        user.friends = gecicidizi2
-                        user.save()
-
-                        break
+                    if (String(gecicidizi2[index]) != String(userId.query.id)) {
+                        gecicidiziyeni2[gecicidiziyeni2.length] = gecicidizi2[index]
 
 
 
                     }
 
                 }
+
+                user.friends = gecicidiziyeni2;
+                user.save();
 
             }
             if (gecicidizi1.length >= 2) {
+                gecicidiziyeni1[0] = String(userId.user.id)
                 for (let index = 0; index < gecicidizi1.length; index++) {
 
-                    if (String(gecicidizi1[index]) == String(userId.user.id)) {
-                        console.log('burada');
-                        let newArray = []
-                        newArray[0] = gecicidizi1[index]
-                        gecicidizi1.remove(gecicidizi1[index])
-                        newArray.push(gecicidizi1);
-                        gecicidizi1 = newArray;
-                        chatuser.friends = gecicidizi1
-                        chatuser.save()
+                    if (String(gecicidizi1[index]) != String(userId.user.id)) {
 
-                        break
-
-
+                        gecicidiziyeni1[gecicidiziyeni1.length] = gecicidizi1[index]
 
                     }
 
                 }
-
+                chatuser.friends = gecicidiziyeni1;
+                chatuser.save();
             }
             /*  if (chatuser.friends.length >= 2) {
                   for (let index = 0; index < chatuser.friends.length; index++) {
@@ -248,6 +237,7 @@ io.on('connection', async (socket) => {
             if (!chats) {
                 chats = await Chat.findOne({ kullanici2: userId.query.id, kullanici1: userId.user.id })
             }
+
             let pushmesaj = {}
             chats.mesaj.push({ gonderen: user._id, alan: chatuser._id, mesaj: data.message, okundu: false })
             await chats.save();
@@ -266,6 +256,14 @@ io.on('connection', async (socket) => {
             }
             //console.log(data, socket.id);
             //io.to(user.socketid).emit('chat', data2);
+            let okundubilgisi = await Okundu.findOne({ user1: userId.query.id })
+            if (!okundubilgisi) {
+                okundubilgisi = await Okundu.findOne({ user2: userId.query.id })
+            }
+
+
+            okundubilgisi.Okundu = true
+            okundubilgisi.save();
 
 
             console.log(roomid.roomid);
